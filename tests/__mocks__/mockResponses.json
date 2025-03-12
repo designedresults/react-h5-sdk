@@ -1,0 +1,211 @@
+{
+  "/m3api-rest/csrf": {
+    "status": 200,
+    "statusText": "OK",
+    "ok": true,
+    "url": "/m3api-rest/csrf",
+    "body": "999999999"
+  },
+  "/m3api-rest/execute/GENERAL/GetUserInfo": {
+    "status": 200,
+    "statusText": "OK",
+    "ok": true,
+    "url": "/m3api-rest/execute/GENERAL/GetUserInfo",
+    "body": {
+      "Program": "GENERAL",
+      "Transaction": "GetUserInfo",
+      "Metadata": {
+        "Field": [
+          {
+            "@name": "ZZUSID",
+            "@type": "A",
+            "@length": 10,
+            "@description": "User"
+          },
+          {
+            "@name": "ZDCONO",
+            "@type": "N",
+            "@length": 3,
+            "@description": "Company"
+          },
+          {
+            "@name": "ZDDIVI",
+            "@type": "A",
+            "@length": 3,
+            "@description": "Division"
+          },
+          {
+            "@name": "ZDFACI",
+            "@type": "A",
+            "@length": 3,
+            "@description": "Facility"
+          },
+          {
+            "@name": "ZZWHLO",
+            "@type": "A",
+            "@length": 3,
+            "@description": "Warehouse"
+          },
+          {
+            "@name": "ZDAUPF",
+            "@type": "A",
+            "@length": 10,
+            "@description": "User group-function access"
+          },
+          {
+            "@name": "ZDREPF",
+            "@type": "A",
+            "@length": 1,
+            "@description": "Display item name in own language"
+          },
+          {
+            "@name": "ZDLANC",
+            "@type": "A",
+            "@length": 2,
+            "@description": "System language"
+          },
+          {
+            "@name": "ZDDTFM",
+            "@type": "A",
+            "@length": 3,
+            "@description": "Date format"
+          },
+          {
+            "@name": "DSEP",
+            "@type": "A",
+            "@length": 1,
+            "@description": "Date separator"
+          },
+          {
+            "@name": "TSEP",
+            "@type": "A",
+            "@length": 1,
+            "@description": "Time separator"
+          },
+          {
+            "@name": "TIZO",
+            "@type": "A",
+            "@length": 5,
+            "@description": "Time zone"
+          },
+          {
+            "@name": "USFN",
+            "@type": "A",
+            "@length": 40,
+            "@description": "User full name"
+          }
+        ]
+      },
+      "MIRecord": [
+        {
+          "NameValue": [
+            {
+              "Name": "ZZUSID",
+              "Value": "MOCKUSID"
+            },
+            {
+              "Name": "ZDCONO",
+              "Value": "0"
+            },
+            {
+              "Name": "ZDDIVI",
+              "Value": ""
+            },
+            {
+              "Name": "ZDFACI",
+              "Value": ""
+            },
+            {
+              "Name": "ZZWHLO",
+              "Value": ""
+            },
+            {
+              "Name": "ZDAUPF",
+              "Value": ""
+            },
+            {
+              "Name": "ZDREPF",
+              "Value": "0"
+            },
+            {
+              "Name": "ZDLANC",
+              "Value": "GB"
+            },
+            {
+              "Name": "ZDDTFM",
+              "Value": "YMD"
+            },
+            {
+              "Name": "DSEP",
+              "Value": "-"
+            },
+            {
+              "Name": "TSEP",
+              "Value": ":"
+            },
+            {
+              "Name": "TIZO",
+              "Value": "CST"
+            },
+            {
+              "Name": "USFN",
+              "Value": "Mock User"
+            }
+          ],
+          "RowIndex": 0
+        }
+      ]
+    }
+  },
+  "/m3api-rest/execute/GENERAL/GetServerTime": {
+    "status": 200,
+    "statusText": "OK",
+    "ok": true,
+    "url": "/m3api-rest/execute/GENERAL/GetServerTime",
+    "body": {
+      "Program": "GENERAL",
+      "Transaction": "GetServerTime",
+      "Metadata": {
+        "Field": [
+          {
+            "@name": "DATE",
+            "@type": "D",
+            "@length": 10,
+            "@description": "Date YYYYMMDD"
+          },
+          {
+            "@name": "TIME",
+            "@type": "N",
+            "@length": 6,
+            "@description": "Time 6 digits"
+          },
+          {
+            "@name": "LMTS",
+            "@type": "N",
+            "@length": 18,
+            "@description": "Number of milliseconds"
+          }
+        ]
+      },
+      "MIRecord": [
+        {
+          "NameValue": [
+            {
+              "Name": "DATE",
+              "Value": "20240911"
+            },
+            {
+              "Name": "TIME",
+              "Value": "151634"
+            },
+            {
+              "Name": "LMTS",
+              "Value": "1726067794982"
+            }
+          ],
+          "RowIndex": 0
+        }
+      ]
+    }
+  }
+}
