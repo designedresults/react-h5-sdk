@@ -259,7 +259,7 @@ export class MIError extends Error {
   transaction?: string;
   errorField?: string;
   errorType?: string;
-  hasError = () => true;
+
 
   constructor(public response: IMIResponse) {
     super(response.errorMessage);
