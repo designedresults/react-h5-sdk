@@ -1,0 +1,78 @@
+{
+  "name": "@designedresults/react-h5-sdk",
+  "version": "1.0.9",
+  "description": "React utilities for M3 H5 SDK apps",
+  "main": "./lib/index.js",
+  "files": [
+    "lib/**/*"
+  ],
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "publishConfig": {
+    "name": "@designedresults/react-h5-sdk"
+  },
+  "homepage": "https://github.com/designedresults/react-h5-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/designedresults/react-h5-sdk.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "John Hagler",
+    "email": "john@designedresults.co",
+    "url": "https://designedresults.co"
+  },
+  "scripts": {
+    "build": "rm -rf ./lib/ && tsc --project tsconfig.build.json",
+    "build:dev": "rm -rf ./lib/ && tsc --project tsconfig.build.json --watch",
+    "dev": "concurrently \"vite\" \"pnpm proxy\" ",
+    "proxy": "ionapi-proxy-server --file Rosboro.ionapi",
+    "clean": "rm -rf ./lib/",
+    "test:watch": "jest --watch",
+    "test": "jest --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@designedresults/ionapi-proxy-server": "^1.0.5",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.10",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/supertest": "^6.0.2",
+    "@vitejs/plugin-react": "latest",
+    "concurrently": "^9.1.2",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.6",
+    "typescript": "^5.8.2",
+    "vite": "latest"
+  },
+  "dependencies": {
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@infor-up/m3-odin": "^7.1.1",
+    "dayjs": "^1.11.13",
+    "numeral": "^2.0.6",
+    "observable-hooks": "^4.2.4",
+    "react-dropzone": "^14.3.8",
+    "react-hook-form": "^7.54.2",
+    "react-hook-form-mui": "^7.5.0",
+    "rxjs": "^7.8.2"
+  },
+  "peerDependencies": {
+    "@mui/icons-material": "^6.4.7",
+    "@mui/material": "^6.4.7",
+    "@mui/x-data-grid": "^7.27.0",
+    "@mui/x-date-pickers": "^7.27.1",
+    "@reduxjs/toolkit": "^2.6.0",
+    "@uidotdev/usehooks": "^2.4.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0"
+  }
+}
