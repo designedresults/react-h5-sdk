@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosHeaders, AxiosRequestConfig } from "axios";
 
 /**
  * Manages Cross Site Request Forgery (CSRF) tokens used when making interal calls to M3 resources
@@ -69,10 +69,11 @@ export class CSRF {
     return resp;
   }
 
-  private addToken(options: AxiosRequestConfig) {
-    const csrfHeader = {
-      "fnd-csrf-token": this.csrfToken,
-    };
-    options.headers = Object.assign(options.headers ?? {}, csrfHeader);
+  protected addToken(options: AxiosRequestConfig) {
+    if (this.csrfToken) {
+      const headers = new AxiosHeaders(options.headers?.raw)
+      headers.set('fnd-csrf-token', this.csrfToken)
+      options.headers = headers
+    }
   }
 }
