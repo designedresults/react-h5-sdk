@@ -3,10 +3,18 @@ import CircularProgress from '@mui/material/CircularProgress';
 import React, { PropsWithChildren } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-export default function SubmitButton(props: PropsWithChildren & ButtonProps) {
+type Props = {
+  loading?: boolean
+}
+
+export default function SubmitButton(props: Props & PropsWithChildren & ButtonProps) {
   const ctx = useFormContext();
-  const disabled = props.disabled || !(ctx?.formState?.isValid ?? false) || (ctx?.formState?.isSubmitting ?? false);
-  const loading = ctx?.formState?.isSubmitting ?? false;
+  const disabled =
+    (props.disabled === undefined ? false : props.disabled) ||
+    (ctx?.formState?.isValid  === undefined ? false : !ctx.formState.isValid) ||
+    (ctx?.formState?.isSubmitting === undefined ? false : !ctx.formState.isSubmitting);
+  const loading = (props.loading === undefined ? false : props.loading) ||
+  ctx?.formState?.isSubmitting === undefined ? false : ctx.formState.isSubmitting;
   const { ['children']: removed, ...filteredProps } = props;
   return (
     <Button
