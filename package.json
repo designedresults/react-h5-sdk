@@ -28,7 +28,7 @@
   },
   "scripts": {
     "build": "rm -rf ./lib/ && tsc --project tsconfig.build.json",
-    "build:dev": "rm -rf ./lib/ && tsc --project tsconfig.build.json --watch",
+    "build:dev": "rm -rf ./lib/ && tsc --project tsconfig.json --watch",
     "dev": "concurrently \"vite\" \"pnpm proxy\" ",
     "proxy": "ionapi-proxy-server --file Rosboro.ionapi",
     "clean": "rm -rf ./lib/",
