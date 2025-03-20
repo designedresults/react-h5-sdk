@@ -17,6 +17,8 @@ export class BulkMIService {
     }
     if (request.maxReturnedRecords) {
       params.append('maxrecs', request.maxReturnedRecords?.toString() ?? '0');
+    } else {
+      params.append('maxrecs', '0')
     }
     if (request.extendedResult) {
       params.append('extendedresult', request.extendedResult ? 'true' : 'false');
