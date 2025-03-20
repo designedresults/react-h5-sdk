@@ -21,7 +21,7 @@ export default function ChangeFacilityWarehouse({ open, handleClose }: Props) {
   const { facility, warehouse } = useAppSelector(state => state.userContext);
   const [submit, action] = userApi.useChangeFacilityWarehouseMutation();
   if (action.isError) {
-    throw action.error
+    throw action.error;
   }
 
   return (
@@ -41,14 +41,13 @@ export default function ChangeFacilityWarehouse({ open, handleClose }: Props) {
           </Stack>
         </DialogContent>
         <DialogActions>
-        <Button onClick={handleClose} disabled={action.isLoading}>Cancel</Button>
+          <Button onClick={handleClose} disabled={action.isLoading}>
+            Cancel
+          </Button>
           <Button type="submit" variant="contained" startIcon={<EditIcon />} loading={action.isLoading}>
             Update
           </Button>
         </DialogActions>
-        {/* {action.isError && 
-        <Typography variant="body1" color="error">{JSON.stringify(action.error)}</Typography>
-        } */}
       </FormContainer>
     </Dialog>
   );
