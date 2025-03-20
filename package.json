@@ -27,8 +27,9 @@
     "url": "https://designedresults.co"
   },
   "scripts": {
-    "build": "rm -rf ./lib/ && tsc --project tsconfig.build.json",
     "build:dev": "rm -rf ./lib/ && tsc --project tsconfig.json --watch",
+    "build": "rm -rf ./lib/ && tsc --project tsconfig.build.json",
+    "publish:patch": "npm version patch && npm publish",
     "dev": "concurrently \"vite\" \"pnpm proxy\" ",
     "proxy": "ionapi-proxy-server --file Rosboro.ionapi",
     "clean": "rm -rf ./lib/",
