@@ -8,7 +8,7 @@ interface SizedBoxProps extends React.PropsWithChildren {
   padding?: number;
 }
 
-const SizedBox: React.FC<SizedBoxProps> = ({ minHeight = 300, margin = 20, padding, children }) => {
+export const SizedBox: React.FC<SizedBoxProps> = ({ minHeight = 300, margin = 20, padding, children }) => {
   const ref = React.createRef<HTMLElement>();
   const [height, setHeight] = React.useState(minHeight);
   const size = useWindowSize();
@@ -28,5 +28,3 @@ const SizedBox: React.FC<SizedBoxProps> = ({ minHeight = 300, margin = 20, paddi
     </Box>
   );
 };
-
-export default SizedBox;
