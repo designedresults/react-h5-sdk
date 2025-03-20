@@ -1,16 +1,14 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { configureUserApi } from "../services/userApi";
-import { appReducer } from './appSlice';
-import { userContextReducer } from './userContextSlice';
 import { configureMI } from '..';
+import { configureUserApi } from "../services/userApi";
+import { userContextReducer } from './userContextSlice';
 
 export const mi = configureMI();
 export const userApi = configureUserApi(mi);
 
 export const store = configureStore({
   reducer: {
-    app: appReducer,
     userContext: userContextReducer,
     [userApi.reducerPath]: userApi.reducer,
   },
