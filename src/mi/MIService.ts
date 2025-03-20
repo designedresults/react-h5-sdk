@@ -149,11 +149,8 @@ export class MIService {
     return response?.item;
   }
 
-  public async getRoles(userId?: string | null) {
+  public async getRoles() {
     let roles: string[]
-    if (!userId) {
-      return null;
-    }
     const resp = await this.execute({
       program: 'MNS410MI',
       transaction: 'LstRoles',
