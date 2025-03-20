@@ -31,7 +31,7 @@ export class MIService {
         } else if (errorMessage.includes('already exists')) {
           throw new RecordDoesNotExistError(response);
         } else {
-          throw new MIError(response);
+          throw new MIError(response, request);
         }
       } else {
         throw error;
@@ -258,9 +258,10 @@ export class MIError extends Error {
   transaction?: string;
   errorField?: string;
   errorType?: string;
+  record?: any;
 
 
-  constructor(public response: IMIResponse) {
+  constructor(public response: IMIResponse, public request?: IMIRequest) {
     super(response.errorMessage);
     this.name = 'MIError';
     this.errorCode = response.errorCode;
@@ -269,6 +270,7 @@ export class MIError extends Error {
     this.transaction = response.transaction;
     this.errorField = response.errorField;
     this.errorType = response.errorType;
+    this.record = request?.record
   }
 }
 
