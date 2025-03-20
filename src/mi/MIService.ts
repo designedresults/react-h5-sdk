@@ -150,14 +150,16 @@ export class MIService {
   }
 
   public async getRoles(userId?: string | null) {
+    let roles: string[]
     if (!userId) {
-      return [];
+      return null;
     }
     const resp = await this.execute({
       program: 'MNS410MI',
       transaction: 'LstRoles',
     });
-    return resp?.items?.map(item => item.ROLL) ?? [];
+    roles = resp?.items?.map(item => item.ROLL) ?? [];
+    return roles
   }
 
   public async getPrinter(userId: string, printerFile?: string) {
