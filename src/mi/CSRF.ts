@@ -23,7 +23,6 @@ export class CSRF {
   public async getToken() {
     const resp = await axios('/foundation-rest/csrf');
     const token = resp.data;
-    console.log('retrieving csrf token', token);
     return token;
   }
 
@@ -50,7 +49,6 @@ export class CSRF {
    * ```
    */
   public async fetch(url: string, options: AxiosRequestConfig) {
-    console.log('fetching with csrf', url);
     if (!this.csrfToken) {
       this.csrfToken = await this.getToken();
     }
@@ -69,7 +67,6 @@ export class CSRF {
       const json = resp.data;
       if (json?.message == 'CSRF_TOKEN_EXPIRED') {
         this.csrfToken = await this.getToken();
-        console.log('refreshed token', this.csrfToken);
         resp = await axios(url, {
           method: options.method,
           data: options.data,
