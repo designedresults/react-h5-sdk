@@ -1,10 +1,11 @@
 import { useGridApiContext } from "@mui/x-data-grid/hooks/utils/useGridApiContext";
+import { GridApiCommunity } from "@mui/x-data-grid/internals";
 import { GridEventListener } from "@mui/x-data-grid/models/events/gridEventListener";
 import { useEffect, useState } from "react";
 
-export function useSelectedRows() {
+export function useSelectedRows(apiRef?: React.RefObject<GridApiCommunity>) {
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const apiRef = useGridApiContext();
+  apiRef = apiRef ?? useGridApiContext();
   
   useEffect(() => {
     const handleRowClick: GridEventListener<'rowSelectionChange'> = () => {
@@ -16,3 +17,5 @@ export function useSelectedRows() {
   
   return selectedRows;
 }
+
+
