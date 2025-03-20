@@ -149,27 +149,29 @@ export const configureUserApi = (mi: MIService) => {
       changeFacilityWarehouse: builder.mutation<void, { facility: string; warehouse: string }>({
         queryFn: async (args, api) => {
           try {
-            const { userId, company } = (api.getState() as RootState).userContext;
+            const { userId, company, division } = (api.getState() as RootState).userContext;
             if (!userId) {
               throw new Error('User ID must be set to change defaults.');
             }
-            if (!company) {
-              throw new Error('Default company must be set to change defaults.');
+            if (!company || !division) {
+              throw new Error('Default company and division must be set to change defaults.');
             }
+            
             await mi.execute({
               program: 'MNS150MI',
               transaction: 'ChgDefaultValue',
               record: {
-                USID: userId,
-                CONO: company,
-                FACI: args.facility,
-                WHLO: args.warehouse,
+                // USID: userId,
+                // CONO: company,
+                // DIVI: division,
+                // FACI: args.facility,
+                // WHLO: args.warehouse,
               },
             });
             api.dispatch(loadUserContext())
             return { data: undefined };
           } catch (error) {
-            return { error };
+            return { error }
           }
         },
       }),
