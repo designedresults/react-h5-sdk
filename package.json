@@ -56,7 +56,7 @@
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
     "@infor-up/m3-odin": "^7.1.1",
-    "axios": "^1.8.3",
+    "axios": "^1.8.4",
     "dayjs": "^1.11.13",
     "numeral": "^2.0.6",
     "observable-hooks": "^4.2.4",
