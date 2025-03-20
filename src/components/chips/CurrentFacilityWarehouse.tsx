@@ -8,10 +8,10 @@ import Box from '@mui/material/Box';
 
 type Props = {
   canEdit?: boolean;
+  chipProps?: ChipProps;
 };
 
-export default function CurrentFacilityWarehouse(props: Props & ChipProps) {
-  const { ['canEdit']: removedProp, ...filteredProps } = props;
+export default function CurrentFacilityWarehouse({ canEdit, chipProps }: Props) {
   const { facility, facilityName, warehouse, warehouseName } = useAppSelector(state => state.userContext);
 
   const [open, setOpen] = useState(false);
@@ -34,7 +34,9 @@ export default function CurrentFacilityWarehouse(props: Props & ChipProps) {
             <Box>
               Facility: {facility} - {facilityName}
             </Box>
-            <Box>Warehouse: {warehouse} - {warehouseName}</Box>
+            <Box>
+              Warehouse: {warehouse} - {warehouseName}
+            </Box>
           </>
         }
         arrow
@@ -42,9 +44,9 @@ export default function CurrentFacilityWarehouse(props: Props & ChipProps) {
         <Chip
           icon={<BusinessIcon color="inherit" />}
           label={`${facility}/${warehouse}`}
-          onClick={props.canEdit ? handleOpen : undefined}
+          onClick={canEdit ? handleOpen : undefined}
           sx={{ color: 'inherit' }}
-          {...filteredProps}
+          {...chipProps}
         />
       </Tooltip>
       {open && <ChangeFacilityWarehouse open={open} handleClose={handleClose} />}

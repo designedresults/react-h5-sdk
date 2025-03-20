@@ -8,10 +8,11 @@ import Box from '@mui/material/Box';
 
 type Props = {
   canEdit?: boolean;
+  chipProps?: ChipProps
 };
 
-export default function CurrentPrinter(props: Props & ChipProps) {
-  const { ['canEdit']: removedProp, ...filteredProps } = props;
+export default function CurrentPrinter({canEdit, chipProps}: Props) {
+  
   const { printer } = useAppSelector(state => state.userContext);
 
   const [open, setOpen] = useState(false);
@@ -41,9 +42,9 @@ export default function CurrentPrinter(props: Props & ChipProps) {
         <Chip
           icon={<PrintIcon color="inherit" />}
           label={`${printer?.device ?? 'NONE'}`}
-          onClick={props.canEdit ? handleOpen : undefined}
+          onClick={canEdit ? handleOpen : undefined}
           sx={{ color: 'inherit' }}
-          {...filteredProps}
+          {...chipProps}
         />
       </Tooltip>
       {open && <ChangePrinter open={open} handleClose={handleClose} />}

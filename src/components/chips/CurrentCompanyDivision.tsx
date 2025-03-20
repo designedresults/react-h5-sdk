@@ -8,10 +8,13 @@ import Box from '@mui/material/Box';
 
 type Props = {
   canEdit?: boolean;
+  chipProps?: ChipProps;
 };
 
-export default function CurrentCompanyDivision(props: Props & ChipProps) {
-  const { company, companyName, division, divisionName, environment, tenantId } = useAppSelector(state => state.userContext);
+export default function CurrentCompanyDivision({ canEdit, chipProps }: Props) {
+  const { company, companyName, division, divisionName, environment, tenantId } = useAppSelector(
+    state => state.userContext
+  );
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -20,8 +23,6 @@ export default function CurrentCompanyDivision(props: Props & ChipProps) {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const { ['canEdit']: removedProp, ...filteredProps } = props;
 
   if (!company) {
     return;
@@ -32,8 +33,12 @@ export default function CurrentCompanyDivision(props: Props & ChipProps) {
         title={
           <>
             <Box>Tenant: {tenantId} </Box>
-            <Box>Company: {company} - {companyName} </Box>
-            <Box>Division: {division} - {divisionName}</Box>
+            <Box>
+              Company: {company} - {companyName}{' '}
+            </Box>
+            <Box>
+              Division: {division} - {divisionName}
+            </Box>
           </>
         }
         arrow
@@ -41,9 +46,9 @@ export default function CurrentCompanyDivision(props: Props & ChipProps) {
         <Chip
           icon={<LanguageIcon color="inherit" />}
           label={`${environment} ${company}/${division}`}
-          onClick={props.canEdit ? handleOpen : undefined}
+          onClick={canEdit ? handleOpen : undefined}
           sx={{ color: 'inherit' }}
-          {...filteredProps}
+          {...chipProps}
         />
       </Tooltip>
       {open && <ChangeCompanyDivision open={open} handleClose={handleClose} />}

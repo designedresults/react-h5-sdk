@@ -38,10 +38,10 @@ function App() {
           App Title
         </Typography>
         <Box flexGrow={1} />
-        <CurrentUser size="small" />
-        <CurrentCompanyDivision size="small" canEdit variant="outlined" />
-        <CurrentFacilityWarehouse size="small" canEdit variant="outlined" />
-        <CurrentPrinter size="small" canEdit variant="outlined" />
+        <CurrentUser chipProps={{ size: 'small' }} showRoles />
+        <CurrentCompanyDivision chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
+        <CurrentFacilityWarehouse chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
+        <CurrentPrinter chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
       </AppToolbar>
       <Container maxWidth="lg">
         <Typography fontWeight={'bold'}>Redux Store State</Typography>
