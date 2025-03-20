@@ -1,5 +1,4 @@
-import {
-  type MIServiceCore as IMIServiceCore,
+export {
   type IMIService,
   type IMIRequest,
   type IMIResponse,
@@ -7,21 +6,21 @@ import {
   type IHttpRequest,
   type IHttpResponse,
 } from '@infor-up/m3-odin';
+
+export { BulkMIService, type IBulkMIRequest, type IBulkMIResponse } from './BulkMIService';
+
+export { type RecordAlreadyExistsError, type RecordDoesNotExistError, type MIErrorCfg, MIService } from './MIService';
+
+import { type MIServiceCore as IMIServiceCore } from '@infor-up/m3-odin';
+export { type IMIServiceCore };
 import { MIService } from './MIService';
 import { BulkMIService } from './BulkMIService';
 import { CSRF } from './CSRF';
 
-export { IMIService, IMIServiceCore, IMIRequest, IMIResponse, IHttpService, IHttpRequest, IHttpResponse };
-
-export { BulkMIService, type IBulkMIRequest, type IBulkMIResponse } from './BulkMIService';
-
-export { RecordAlreadyExistsError, RecordDoesNotExistError, MIErrorCfg, MIService } from './MIService';
-
-
 export const configureMI = (mi?: IMIServiceCore) => {
-  return new MIService(mi)
-}
+  return new MIService(mi);
+};
 
 export const configureBulkMI = () => {
-  return new BulkMIService(new CSRF())
-}
+  return new BulkMIService(new CSRF());
+};
