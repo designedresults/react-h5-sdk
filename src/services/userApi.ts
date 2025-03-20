@@ -161,11 +161,11 @@ export const configureUserApi = (mi: MIService) => {
               program: 'MNS150MI',
               transaction: 'ChgDefaultValue',
               record: {
-                // USID: userId,
-                // CONO: company,
-                // DIVI: division,
-                // FACI: args.facility,
-                // WHLO: args.warehouse,
+                USID: userId,
+                CONO: company,
+                DIVI: division,
+                FACI: args.facility,
+                WHLO: args.warehouse,
               },
             });
             api.dispatch(loadUserContext())
