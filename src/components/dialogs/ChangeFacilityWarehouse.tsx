@@ -1,4 +1,5 @@
 import EditIcon from '@mui/icons-material/edit';
+import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -7,11 +8,9 @@ import Stack from '@mui/material/Stack';
 import React from 'react';
 import { FormContainer } from 'react-hook-form-mui';
 import { useAppSelector, userApi } from '../../features/store';
-
 import AutocompleteFacility from '../form/AutocompleteFacility';
 import AutocompleteWarehouse from '../form/AutocompleteWarehouse';
-import CancelButton from '../form/CancelButton';
-import SubmitButton from '../form/SubmitButton';
+import Typography from '@mui/material/Typography';
 
 type Props = {
   open: boolean;
@@ -21,6 +20,9 @@ type Props = {
 export default function ChangeFacilityWarehouse({ open, handleClose }: Props) {
   const { facility, warehouse } = useAppSelector(state => state.userContext);
   const [submit, action] = userApi.useChangeFacilityWarehouseMutation();
+  if (action.isError) {
+    throw action.error
+  }
 
   return (
     <Dialog open={open} fullWidth maxWidth={'sm'}>
@@ -39,11 +41,14 @@ export default function ChangeFacilityWarehouse({ open, handleClose }: Props) {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <CancelButton onClick={handleClose}>Cancel</CancelButton>
-          <SubmitButton variant="contained" startIcon={<EditIcon />}>
+        <Button onClick={handleClose} disabled={action.isLoading}>Cancel</Button>
+          <Button type="submit" variant="contained" startIcon={<EditIcon />} loading={action.isLoading}>
             Update
-          </SubmitButton>
+          </Button>
         </DialogActions>
+        {/* {action.isError && 
+        <Typography variant="body1" color="error">{JSON.stringify(action.error)}</Typography>
+        } */}
       </FormContainer>
     </Dialog>
   );

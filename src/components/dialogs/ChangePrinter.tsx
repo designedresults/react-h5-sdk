@@ -7,10 +7,8 @@ import Stack from '@mui/material/Stack';
 import React from 'react';
 import { FormContainer } from 'react-hook-form-mui';
 import { useAppSelector, userApi } from '../../features/store';
-
 import AutocompletePrinter from '../form/AutocompletePrinter';
-import CancelButton from '../form/CancelButton';
-import SubmitButton from '../form/SubmitButton';
+import Button from '@mui/material/Button';
 
 type Props = {
   open: boolean;
@@ -26,7 +24,7 @@ export default function ChangeFacilityWarehouse({ open, handleClose }: Props) {
       <FormContainer
         defaultValues={{ printer: printer?.device ?? '' }}
         onSuccess={async data => {
-          const printMedia = Object.assign({device: data.printer, printer})
+          const printMedia = Object.assign({ device: data.printer, printer });
           await submit(printMedia).unwrap();
           handleClose();
         }}
@@ -38,10 +36,12 @@ export default function ChangeFacilityWarehouse({ open, handleClose }: Props) {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <CancelButton onClick={handleClose}>Cancel</CancelButton>
-          <SubmitButton variant="contained" startIcon={<EditIcon />}>
+          <Button onClick={handleClose} disabled={action.isLoading}>
+            Cancel
+          </Button>
+          <Button variant="contained" startIcon={<EditIcon />} loading={action.isLoading}>
             Update
-          </SubmitButton>
+          </Button>
         </DialogActions>
       </FormContainer>
     </Dialog>
