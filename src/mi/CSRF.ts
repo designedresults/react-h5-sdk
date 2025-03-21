@@ -4,7 +4,12 @@ import axios, { AxiosHeaders, AxiosRequestConfig } from 'axios';
  * Manages Cross Site Request Forgery (CSRF) tokens used when making interal calls to M3 resources
  */
 export class CSRF {
-  private csrfToken?: string;
+
+  constructor(private baseUrl?: string, private csrfToken?: string) {
+    if (!baseUrl) {
+      this.baseUrl = ''
+    }
+  }
 
   /**
    * Retrieves a CSRF token from the M3 engine
@@ -21,7 +26,7 @@ export class CSRF {
    * ```
    */
   public async getToken() {
-    const resp = await axios('/foundation-rest/csrf');
+    const resp = await axios(this.baseUrl + '/foundation-rest/csrf');
     const token = resp.data;
     return token;
   }
@@ -54,7 +59,7 @@ export class CSRF {
     }
     const headers: any = options.headers?.raw ?? {};
 
-    let resp = await axios(url, {
+    let resp = await axios(this.baseUrl + url, {
       method: options.method,
       data: options.data,
       headers: {
