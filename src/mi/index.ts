@@ -16,7 +16,7 @@ export { type IMIServiceCore };
 import { MIService } from './MIService';
 import { BulkMIService } from './BulkMIService';
 import { CSRF } from './CSRF';
-
+export * from './CSRF'
 export const configureMI = (mi?: IMIServiceCore) => {
   return new MIService(mi);
 };
