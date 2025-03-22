@@ -1,3 +1,4 @@
+import { M3API } from '@designedresults/m3api-h5-sdk';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -28,7 +29,8 @@ import { store, useAppSelector } from './features/store';
 import { loadUserContext } from './features/userContextSlice';
 import theme from './theme';
 
-store.dispatch(loadUserContext());
+const m3api = new M3API()
+store.dispatch(loadUserContext(m3api));
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

@@ -1,11 +1,11 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { configureMI } from '..';
 import { configureUserApi } from "../services/userApi";
 import { userContextReducer } from './userContextSlice';
+import { M3API } from '@designedresults/m3api-h5-sdk';
 
-export const mi = configureMI();
-export const userApi = configureUserApi(mi);
+export const m3api = new M3API()
+export const userApi = configureUserApi(m3api);
 
 export const store = configureStore({
   reducer: {

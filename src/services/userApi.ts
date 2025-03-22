@@ -1,10 +1,10 @@
+import { M3API } from '@designedresults/m3api-h5-sdk';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { fnBaseQuery } from '.';
 import { RootState } from '..';
-import { MIService } from '../mi/MIService';
 import { IUserOutputMedia, loadUserContext } from '../features/userContextSlice';
 
-export const configureUserApi = (mi: MIService) => {
+export const configureUserApi = (m3api: M3API) => {
   const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fnBaseQuery,
@@ -17,7 +17,7 @@ export const configureUserApi = (mi: MIService) => {
               throw new Error('User ID must be set to change defaults.');
             }
 
-            const response = await mi.execute({
+            const response = await m3api.execute({
               program: 'MNS150MI',
               transaction: 'LstCmpDivi',
               record: {
@@ -25,7 +25,7 @@ export const configureUserApi = (mi: MIService) => {
               },
             });
 
-            const companies = response.items
+            const companies = response.records
               ?.filter((item: any) => item.CONO > '001')
               .reduce((map: Map<string, any>, item: any) => {
                 if (!map.has(item.CONO)) {
@@ -54,7 +54,7 @@ export const configureUserApi = (mi: MIService) => {
               return { data: [] };
             }
 
-            const response = await mi.execute({
+            const response = await m3api.execute({
               program: 'MNS150MI',
               transaction: 'LstCmpDivi',
               record: {
@@ -62,7 +62,7 @@ export const configureUserApi = (mi: MIService) => {
               },
             });
 
-            const divisions = response.items
+            const divisions = response.records
               ?.filter((item: any) => item.CONO === company)
               .map(item => ({
                 id: item.DIVI === "" ? 'BLANK' : item.DIVI,
@@ -87,7 +87,7 @@ export const configureUserApi = (mi: MIService) => {
             const toCompany = args.company;
             const toDivision = args.division === 'BLANK' ? undefined : args.division
             
-            await mi.execute({
+            await m3api.execute({
               program: 'MNS150MI',
               transaction: 'ChgDefaultValue',
               record: {
@@ -96,9 +96,8 @@ export const configureUserApi = (mi: MIService) => {
                 DIVI: toDivision,
               },
             });
-            mi.updateMIUserContext(args.company, toDivision ?? '')
             
-            api.dispatch(loadUserContext())
+            api.dispatch(loadUserContext(m3api))
             return { data: undefined };
           } catch (error) {
             return { error };
@@ -108,12 +107,12 @@ export const configureUserApi = (mi: MIService) => {
       listFacilities: builder.query<any[], void>({
         queryFn: async () => {
           try {
-            const resp = await mi.execute({
+            const resp = await m3api.execute({
               program: 'CRS008MI',
               transaction: 'ListFacility',
-              outputFields: ['FACI', 'FACN'],
+              selectedColumns: ['FACI', 'FACN'],
             });
-            const facilities = resp?.items?.map(item => ({
+            const facilities = resp?.records?.map(item => ({
               id: item.FACI,
               label: `${item.FACI} - ${item.FACN}`,
             }));
@@ -129,12 +128,12 @@ export const configureUserApi = (mi: MIService) => {
             if (!facility) {
               return { data: undefined };
             }
-            const resp = await mi.execute({
+            const resp = await m3api.execute({
               program: 'MMS005MI',
               transaction: 'LstWarehouses',
-              outputFields: ['WHLO', 'WHNM', 'FACI'],
+              selectedColumns: ['WHLO', 'WHNM', 'FACI'],
             });
-            const warehouses = resp?.items
+            const warehouses = resp?.records
               ?.filter(item => item.FACI === facility)
               .map(item => ({
                 id: item.WHLO,
@@ -157,7 +156,7 @@ export const configureUserApi = (mi: MIService) => {
               throw new Error('Default company and division must be set to change defaults.');
             }
             
-            await mi.execute({
+            await m3api.execute({
               program: 'MNS150MI',
               transaction: 'ChgDefaultValue',
               record: {
@@ -168,7 +167,7 @@ export const configureUserApi = (mi: MIService) => {
                 WHLO: args.warehouse,
               },
             });
-            api.dispatch(loadUserContext())
+            api.dispatch(loadUserContext(m3api))
             return { data: undefined };
           } catch (error) {
             return { error }
@@ -178,12 +177,12 @@ export const configureUserApi = (mi: MIService) => {
       listPrinters: builder.query<any[], void>({
         queryFn: async () => {
           try {
-            const resp = await mi.execute({
+            const resp = await m3api.execute({
               program: 'CRS290MI',
               transaction: 'LstPrinters',
-              outputFields: ['DEV', 'TX40', 'FACI'],
+              selectedColumns: ['DEV', 'TX40', 'FACI'],
             });
-            const printers = resp?.items?.map(item => ({
+            const printers = resp?.records?.map(item => ({
               id: item.DEV,
               label: `${item.DEV} - ${item.TX40}`,
             }));
@@ -206,7 +205,7 @@ export const configureUserApi = (mi: MIService) => {
             if (!data?.printer) {
               throw new Error('Device must be set to change printer.');
             }
-            await mi.execute({
+            await m3api.execute({
               program: 'MNS204MI',
               transaction: 'UpdPrtMedia',
               record: {
@@ -217,7 +216,7 @@ export const configureUserApi = (mi: MIService) => {
                 SEQN: printer?.sequence,
               },
             });
-            api.dispatch(loadUserContext());
+            api.dispatch(loadUserContext(m3api));
             return { data: undefined };
           } catch (error) {
             return { error };

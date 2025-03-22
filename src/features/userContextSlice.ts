@@ -2,7 +2,9 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { AppThunk, mi } from './store';
+import { AppThunk } from './store';
+import { M3API } from '@designedresults/m3api-h5-sdk';
+import { getUserContext } from '../services/user';
 
  export interface IUserContextState extends IUserDefaults {
   userId: string | null;
@@ -102,9 +104,9 @@ const userContextSlice = createSlice({
 export const userContextReducer = userContextSlice.reducer
 
 
-export const loadUserContext = (): AppThunk => {
+export const loadUserContext = (m3api: M3API): AppThunk => {
   return async (dispatch)=>  {
-    const userContext = await mi.getUserContext();
+    const userContext = await getUserContext(m3api);
     dispatch({ type: 'userContext/setUserContext', payload: userContext });
   }
 }
