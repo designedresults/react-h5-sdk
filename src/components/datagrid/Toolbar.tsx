@@ -25,7 +25,7 @@ export function Toolbar({
   return (
     <GridToolbarContainer sx={{ padding: 0 }}>
       <Stack direction="row" width="100%" alignItems={'center'} padding={0.5}>
-        {title && <Typography {...titleProps}>{title}</Typography>}
+        {title && <Typography {...titleProps} paddingLeft={'calc(21px - 1em)'}>{title}</Typography>}
         <Box flexGrow={1} />
         {quickFilter && <GridToolbarQuickFilter />}
         {children}
