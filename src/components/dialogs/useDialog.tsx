@@ -74,7 +74,7 @@ export function useDialog() {
   };
 
   const CustomDialog = () => (
-    <Dialog open={promise !== null} fullWidth color={severity} onClose={handleCancel} onKeyDown={handleKeyDown}>
+    <Dialog open={promise !== null} fullWidth color={severity} onClose={handleCancel} onKeyDown={handleKeyDown} autoFocus>
       <DialogTitle>
         <Stack direction="row" alignItems={'start'}>
           <Box paddingRight={2}>
