@@ -12,7 +12,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 type Props = {
   title: string;
@@ -57,7 +57,7 @@ export function useDialog(defaultProps: Props) {
       const severity = props?.severity ?? 'info';
       const confirm = props?.confirm === undefined && severity === 'warning' ? true : props?.confirm == true;
       const okButtonRef = useRef<HTMLButtonElement>(null);
-      useEffect(() => {
+      useLayoutEffect(() => {
         okButtonRef.current?.focus();
       }, [okButtonRef]);
       return (
