@@ -7,13 +7,13 @@ import { M3API } from '@designedresults/m3api-h5-sdk';
 import { getUserContext } from '../services/user';
 
  export interface IUserContextState extends IUserDefaults {
-  userId: string | null;
-  userName: string | null;
-  principleUser: string | null;
-  environment: string | null;
-  tenantId: string | null;
-  printer?: IUserOutputMedia | null;
-  roles: string[] | null;
+  userId: string;
+  userName: string;
+  principleUser: string;
+  environment: string;
+  tenantId: string;
+  printer?: IUserOutputMedia;
+  roles: string[];
 }
 
 export interface IUserOutputMedia {
@@ -26,28 +26,28 @@ export interface IUserOutputMedia {
 }
 
 export interface IUserDefaults {
-  company: string | null;
-  companyName?: string | null;
-  division: string | null;
-  divisionName?: string | null;
-  facility: string | null;
-  facilityName?: string | null;
-  warehouse: string | null;
-  warehouseName?: string | null;
+  company: string
+  companyName?: string
+  division: string
+  divisionName?: string
+  facility: string
+  facilityName?: string
+  warehouse: string
+  warehouseName?: string
 }
 
 export const initialState: IUserContextState = {
-  userId: null,
-  userName: null,
-  principleUser: null,
-  environment: null,
-  tenantId: null,
-  company: null,
-  division: null,
-  facility: null,
-  warehouse: null,
-  printer: null,
-  roles: null
+  userId: '',
+  userName: '',
+  principleUser: '',
+  environment: '',
+  tenantId: '',
+  company: '',
+  division: '',
+  facility: '',
+  warehouse: '',
+  printer: {},
+  roles: []
 };
 
 
@@ -94,7 +94,7 @@ const userContextSlice = createSlice({
     },
     setPrinter: (
       state: IUserContextState,
-      action: PayloadAction<IUserOutputMedia | null>
+      action: PayloadAction<IUserOutputMedia>
     ) => {
       state.printer = action.payload;
     },
