@@ -59,7 +59,7 @@ export function useDialog(defaultProps: Props) {
       const okButtonRef = useRef<HTMLButtonElement>(null);
       useLayoutEffect(() => {
         okButtonRef.current?.focus();
-      }, [okButtonRef]);
+      }, [okButtonRef.current]);
       return (
         <Dialog open={promise !== null} fullWidth color={severity} onClose={handleCancel} disablePortal>
           <DialogTitle>
