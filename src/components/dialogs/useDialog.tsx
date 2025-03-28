@@ -60,6 +60,9 @@ export function useDialog(defaultProps: Props) {
       useLayoutEffect(() => {
         okButtonRef.current?.focus();
       }, [okButtonRef.current]);
+      if (props === null) {
+        return
+      }
       return (
         <Dialog open={promise !== null} fullWidth color={severity} onClose={handleCancel} disablePortal>
           <DialogTitle>
@@ -93,7 +96,7 @@ export function useDialog(defaultProps: Props) {
         </Dialog>
       );
     };
-  }, [props]);
+  }, [props, props]);
 
   return { Dialog: CustomDialog, show };
 }
