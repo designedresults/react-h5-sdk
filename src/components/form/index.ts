@@ -13,4 +13,4 @@ export {
   FileDrop,
 };
 
-export * from './useDialog'
+export * from '../dialogs/useDialog'

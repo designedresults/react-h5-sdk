@@ -16,7 +16,7 @@ import React, { PropsWithChildren } from 'react';
 
 import { useState } from 'react';
 
-export const useDialog = () => {
+export function useDialog() {
   const [promise, setPromise] = useState<any>(null);
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
@@ -64,8 +64,17 @@ export const useDialog = () => {
     handleClose();
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (
+      e.key === 'Enter' ||
+      e.which === 13 // Wait until IME is settled.
+    ) {
+      handleConfirm();
+    }
+  };
+
   const CustomDialog = () => (
-    <Dialog open={promise !== null} fullWidth color={severity}>
+    <Dialog open={promise !== null} fullWidth color={severity} onClose={handleCancel} onKeyDown={handleKeyDown}>
       <DialogTitle>
         <Stack direction="row" alignItems={'start'}>
           <Box paddingRight={2}>
@@ -94,6 +103,4 @@ export const useDialog = () => {
     </Dialog>
   );
   return [CustomDialog, show];
-};
-
-
+}

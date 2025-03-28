@@ -17,7 +17,7 @@ import * as ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
-import { Fallback, PageNotFound, useSelectedRows } from './components';
+import { Fallback, PageNotFound, useDialog, useSelectedRows } from './components';
 import CurrentCompanyDivision from './components/chips/CurrentCompanyDivision';
 import CurrentFacilityWarehouse from './components/chips/CurrentFacilityWarehouse';
 import CurrentPrinter from './components/chips/CurrentPrinter';
@@ -28,8 +28,6 @@ import { SizedBox } from './components/layout/SizedBox';
 import { store, useAppSelector } from './features/store';
 import { loadUserContext } from './features/userContextSlice';
 import theme from './theme';
-import useConfirm from './components/form/useDialog';
-import TextField from '@mui/material/TextField';
 
 const m3api = new M3API();
 store.dispatch(loadUserContext(m3api));
@@ -84,7 +82,7 @@ function App() {
 
 function Page() {
   const state = useAppSelector(state => state);
-  const [ConfirmDialog, confirm] = useConfirm();
+  const [ConfirmDialog, confirm] = useDialog();
   return (
     <>
       <Container maxWidth="lg">
@@ -102,7 +100,9 @@ function Page() {
           <Button
             color="info"
             onClick={async () => {
-              await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'info' });
+              console.log(
+                await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'info' })
+              );
             }}
           >
             Show Info Dialog
@@ -110,7 +110,9 @@ function Page() {
           <Button
             color="success"
             onClick={async () => {
-              await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'success' });
+              console.log(
+                await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'success' })
+              );
             }}
           >
             Show Success Dialog
@@ -118,7 +120,14 @@ function Page() {
           <Button
             color="warning"
             onClick={async () => {
-              await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'warning', confirm: true  });
+              console.log(
+                await confirm({
+                  title: 'Confirm Dialog Title',
+                  message: 'Confirm dialog message',
+                  severity: 'warning',
+                  confirm: true,
+                })
+              );
             }}
           >
             Show Warning Dialog
@@ -126,7 +135,9 @@ function Page() {
           <Button
             color="error"
             onClick={async () => {
-              await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'error' });
+              console.log(
+                await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'error' })
+              );
             }}
           >
             Show Error Dialog
