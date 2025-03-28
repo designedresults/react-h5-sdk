@@ -21,11 +21,11 @@ import { M3APIError, M3APIErrorCause } from '@designedresults/m3api-h5-sdk';
 
 export function Fallback({ error, resetErrorBoundary }: FallbackProps) {
   const navigate = useNavigate();
-  const location = useLocation();
-  let back = location.pathname.split('/').slice(0, -1).join('/');
-  if (!back) {
-    back = '/';
-  }
+  // const location = useLocation();
+  // let back = location.pathname.split('/').slice(0, -1).join('/');
+  // if (!back) {
+  //   back = '/';
+  // }
 
   const [open, setOpen] = useState(false);
 
@@ -77,7 +77,6 @@ export function Fallback({ error, resetErrorBoundary }: FallbackProps) {
             startIcon={<ArrowBackIcon />}
             onClick={() => {
               resetErrorBoundary();
-              navigate(back);
             }}
           >
             Back
