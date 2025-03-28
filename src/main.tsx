@@ -28,8 +28,10 @@ import { SizedBox } from './components/layout/SizedBox';
 import { store, useAppSelector } from './features/store';
 import { loadUserContext } from './features/userContextSlice';
 import theme from './theme';
+import useConfirm from './components/form/ConfirmDialog';
+import TextField from '@mui/material/TextField';
 
-const m3api = new M3API()
+const m3api = new M3API();
 store.dispatch(loadUserContext(m3api));
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -82,7 +84,7 @@ function App() {
 
 function Page() {
   const state = useAppSelector(state => state);
-
+  const [ConfirmDialog, confirm] = useConfirm();
   return (
     <>
       <Container maxWidth="lg">
@@ -96,6 +98,41 @@ function Page() {
             <pre>{JSON.stringify({ __APP_NAME__, __APP_DESCRIPTION__, __APP_VERSION__, __BUILD_DATE__ }, null, 2)}</pre>
           </Grid>
         </Grid>
+        <Box marginY={2}>
+          <Button
+            color="info"
+            onClick={async () => {
+              await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'info' });
+            }}
+          >
+            Show Info Dialog
+          </Button>
+          <Button
+            color="success"
+            onClick={async () => {
+              await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'success' });
+            }}
+          >
+            Show Success Dialog
+          </Button>
+          <Button
+            color="warning"
+            onClick={async () => {
+              await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'warning', confirm: true  });
+            }}
+          >
+            Show Warning Dialog
+          </Button>
+          <Button
+            color="error"
+            onClick={async () => {
+              await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'error' });
+            }}
+          >
+            Show Error Dialog
+          </Button>
+          <ConfirmDialog />
+        </Box>
         <Box marginY={1}>
           <SampleDataGrid />
         </Box>
