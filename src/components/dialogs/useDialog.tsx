@@ -15,20 +15,22 @@ import Typography from '@mui/material/Typography';
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
 type Props = {
-  title: string, message?: string, severity?: AlertColor, confirm?: boolean
-}
+  title: string;
+  message?: string;
+  severity?: AlertColor;
+  confirm?: boolean;
+};
 
 export function useDialog(defaultProps: Props) {
-
   const [promise, setPromise] = useState<any>(null);
   const [props, setProps] = useState<any>(null);
 
-  function show(props?: Omit<Props, 'title'> & {title?: string} ) {
+  function show(props?: Omit<Props, 'title'> & { title?: string }) {
     setProps({
       title: props?.title ?? defaultProps?.title,
       message: props?.message ?? defaultProps?.message,
       severity: props?.severity ?? defaultProps?.severity,
-      confirm: props?.confirm ?? defaultProps?.confirm
+      confirm: props?.confirm ?? defaultProps?.confirm,
     });
 
     return new Promise<boolean>(resolve => {
@@ -50,8 +52,8 @@ export function useDialog(defaultProps: Props) {
 
   const CustomDialog = useMemo(() => {
     return (): ReactNode => {
-      const title = props?.title ?? ''
-      const message = props?.message ?? ''
+      const title = props?.title ?? '';
+      const message = props?.message ?? '';
       const severity = props?.severity ?? 'info';
       const confirm = props?.confirm === undefined && severity === 'warning' ? true : props?.confirm == true;
       const okButtonRef = useRef<HTMLButtonElement>(null);
@@ -62,22 +64,22 @@ export function useDialog(defaultProps: Props) {
         <Dialog open={promise !== null} fullWidth color={severity} onClose={handleCancel} disablePortal>
           <DialogTitle>
             <Stack direction="row" alignItems={'start'}>
-              {severity && 
-              <Box paddingRight={2}>
-                {severity === 'warning' && <WarningIcon color={severity} />}
-                {severity === 'error' && <ErrorIcon color={severity} />}
-                {severity === 'success' && <CheckCircleIcon color={severity} />}
-                {severity === 'info' && <InfoIcon color={severity} />}
-              </Box>
-              }
+              {severity && (
+                <Box paddingRight={2}>
+                  {severity === 'warning' && <WarningIcon color={severity} />}
+                  {severity === 'error' && <ErrorIcon color={severity} />}
+                  {severity === 'success' && <CheckCircleIcon color={severity} />}
+                  {severity === 'info' && <InfoIcon color={severity} />}
+                </Box>
+              )}
               <Typography flexGrow={1}>{title}</Typography>
             </Stack>
           </DialogTitle>
-          {message && 
-          <DialogContent>
-            <DialogContentText>{message}</DialogContentText>
-          </DialogContent>
-          }
+          {message && (
+            <DialogContent>
+              <DialogContentText>{message}</DialogContentText>
+            </DialogContent>
+          )}
           <DialogActions>
             {confirm && (
               <Button onClick={handleCancel} color={severity} variant="outlined">
