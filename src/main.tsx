@@ -28,7 +28,7 @@ import { SizedBox } from './components/layout/SizedBox';
 import { store, useAppSelector } from './features/store';
 import { loadUserContext } from './features/userContextSlice';
 import theme from './theme';
-import useConfirm from './components/form/ConfirmDialog';
+import useConfirm from './components/form/useDialog';
 import TextField from '@mui/material/TextField';
 
 const m3api = new M3API();

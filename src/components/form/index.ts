@@ -12,3 +12,5 @@ export {
   AutocompleteWarehouse,
   FileDrop,
 };
+
+export * from './useDialog'

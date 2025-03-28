@@ -16,7 +16,7 @@ import React, { PropsWithChildren } from 'react';
 
 import { useState } from 'react';
 
-const useDialog = () => {
+export const useDialog = () => {
   const [promise, setPromise] = useState<any>(null);
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
@@ -96,4 +96,4 @@ const useDialog = () => {
   return [CustomDialog, show];
 };
 
-export default useDialog;
+
