@@ -15,14 +15,16 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
+import { FormContainer, TextFieldElement } from 'react-hook-form-mui';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
-import { Fallback, PageNotFound, useDialog, useSelectedRows } from './components';
+import { Fallback, PageNotFound, useSelectedRows } from './components';
 import CurrentCompanyDivision from './components/chips/CurrentCompanyDivision';
 import CurrentFacilityWarehouse from './components/chips/CurrentFacilityWarehouse';
 import CurrentPrinter from './components/chips/CurrentPrinter';
 import CurrentUser from './components/chips/CurrentUser';
 import { Toolbar } from './components/datagrid/Toolbar';
+import { useDialog } from './components/dialogs/useDialog';
 import { AppToolbar } from './components/layout/AppToolbar';
 import { SizedBox } from './components/layout/SizedBox';
 import { store, useAppSelector } from './features/store';
@@ -82,9 +84,10 @@ function App() {
 
 function Page() {
   const state = useAppSelector(state => state);
-  const [ConfirmDialog, confirm] = useDialog();
+  const { Dialog, show } = useDialog({title: 'Default title', severity: 'success'});
   return (
     <>
+      <Dialog />
       <Container maxWidth="lg">
         <Grid container component={Paper} marginY={1}>
           <Grid size={6}>
@@ -97,17 +100,36 @@ function Page() {
           </Grid>
         </Grid>
         <Box marginY={2}>
+          <FormContainer
+            onSuccess={async data => {
+              if (Number(data.field1) > 100) {
+                const ok = await show({message: "Value is large", severity: 'warning'});
+                if (ok) {
+                  await show({message: "Submitted with large value"});
+                }
+              } else {
+                await show({message: "Submitted"});
+              }
+            }}
+          >
+            <TextFieldElement name="field1" label="Text field" autoFocus />
+            <Button type="submit">Submit</Button>
+          </FormContainer>
+        </Box>
+        <Box marginY={2}>
           <Button
             color="info"
-            onClick={async () => {
-              console.log(
-                await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'info' })
-              );
-            }}
+            onClick={() => {show({title: "Info title"})}}
           >
             Show Info Dialog
           </Button>
           <Button
+            color="error"
+            onClick={() => {show({message: "An error occured", severity: 'error'})}}
+          >
+            Show Error Dialog
+          </Button>
+          {/* <Button
             color="success"
             onClick={async () => {
               console.log(
@@ -116,8 +138,8 @@ function Page() {
             }}
           >
             Show Success Dialog
-          </Button>
-          <Button
+          </Button> */}
+          {/* <Button
             color="warning"
             onClick={async () => {
               console.log(
@@ -125,7 +147,6 @@ function Page() {
                   title: 'Confirm Dialog Title',
                   message: 'Confirm dialog message',
                   severity: 'warning',
-                  confirm: true,
                 })
               );
             }}
@@ -141,8 +162,7 @@ function Page() {
             }}
           >
             Show Error Dialog
-          </Button>
-          <ConfirmDialog />
+          </Button> */}
         </Box>
         <Box marginY={1}>
           <SampleDataGrid />
