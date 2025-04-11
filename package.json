@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@designedresults/ionapi-proxy-server": "^1.0.6",
+    "@designedresults/m3api-h5-sdk": "^3.1.18",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.14",
     "@types/react": "latest",
@@ -47,9 +48,6 @@
     "ts-jest": "^29.3.0",
     "typescript": "^5.8.2",
     "vite": "latest"
-  },
-  "dependencies": {
-    "@designedresults/m3api-h5-sdk": "file:../m3api-h5-sdk"
   },
   "peerDependencies": {
     "@emotion/react": "^11.14.0",
