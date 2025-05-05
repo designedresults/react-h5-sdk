@@ -2,7 +2,7 @@ import { useGridApiContext, GridApiPro, GridEventListener, gridRowSelectionIdsSe
 
 import { useEffect, useState } from 'react';
 
-export function useSelectedRowsPro(apiRef?: React.RefObject<GridApiPro>) {
+export function useSelectedRowsPro(apiRef?: React.RefObject<GridApiPro> | null) {
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
   apiRef = apiRef ?? useGridApiContext();
 
