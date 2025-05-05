@@ -15,7 +15,7 @@ type Props = {
   quickFilter?: boolean;
 };
 
-export function GridToolbar({
+export function DataGridProToolbar({
   title,
   titleProps,
   refresh,
