@@ -4,10 +4,10 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import { ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { DataGrid } from '@mui/x-data-grid/DataGrid';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -30,6 +30,10 @@ import { SizedBox } from './components/layout/SizedBox';
 import { store, useAppSelector } from './features/store';
 import { loadUserContext } from './features/userContextSlice';
 import theme from './theme';
+import { LicenseInfo } from '@mui/x-license';
+import { DataGridPro } from '@mui/x-data-grid-pro';
+
+LicenseInfo.setLicenseKey(import.meta.env.VITE_MUI_PRO_KEY);
 
 const m3api = new M3API();
 store.dispatch(loadUserContext(m3api));
@@ -84,7 +88,7 @@ function App() {
 
 function Page() {
   const state = useAppSelector(state => state);
-  const { Dialog, show } = useDialog({title: 'Default title', severity: 'success'});
+  const { Dialog, show } = useDialog({ title: 'Default title', severity: 'success' });
   return (
     <>
       <Dialog />
@@ -103,12 +107,12 @@ function Page() {
           <FormContainer
             onSuccess={async data => {
               if (Number(data.field1) > 100) {
-                const ok = await show({message: "Value is large", severity: 'warning'});
+                const ok = await show({ message: 'Value is large', severity: 'warning' });
                 if (ok) {
-                  await show({message: "Submitted with large value"});
+                  await show({ message: 'Submitted with large value' });
                 }
               } else {
-                await show({message: "Submitted"});
+                await show({ message: 'Submitted' });
               }
             }}
           >
@@ -119,13 +123,17 @@ function Page() {
         <Box marginY={2}>
           <Button
             color="info"
-            onClick={() => {show({title: "Info title"})}}
+            onClick={() => {
+              show({ title: 'Info title' });
+            }}
           >
             Show Info Dialog
           </Button>
           <Button
             color="error"
-            onClick={() => {show({message: "An error occured", severity: 'error'})}}
+            onClick={() => {
+              show({ message: 'An error occured', severity: 'error' });
+            }}
           >
             Show Error Dialog
           </Button>
@@ -205,12 +213,13 @@ function SampleDataGrid() {
   }
 
   return (
-    <DataGrid
+    <DataGridPro
       columns={[{ field: 'A' }, { field: 'B' }]}
       rows={[
         { id: 0, A: '111', B: '222' },
         { id: 1, A: '333', B: '444' },
-      ]}
+      ]}      
+      hideFooter={true}
       slots={{
         toolbar: CustomDataGridToolbar,
       }}
