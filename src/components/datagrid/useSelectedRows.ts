@@ -1,4 +1,4 @@
-import { useGridApiContext } from "@mui/x-data-grid/hooks/utils/useGridApiContext";
+import { useGridApiContext } from "@mui/x-data-grid";
 import { GridApiCommunity } from "@mui/x-data-grid/internals";
 import { GridEventListener } from "@mui/x-data-grid/models/events/gridEventListener";
 import { useEffect, useState } from "react";
