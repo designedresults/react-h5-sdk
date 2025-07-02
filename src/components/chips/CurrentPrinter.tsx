@@ -8,10 +8,11 @@ import Box from '@mui/material/Box';
 
 type Props = {
   canEdit?: boolean;
+  onChange?: () => void;
   chipProps?: ChipProps
 };
 
-export default function CurrentPrinter({canEdit, chipProps}: Props) {
+export default function CurrentPrinter({canEdit, onChange, chipProps}: Props) {
   
   const { printer } = useAppSelector(state => state.userContext);
 
@@ -47,7 +48,7 @@ export default function CurrentPrinter({canEdit, chipProps}: Props) {
           {...chipProps}
         />
       </Tooltip>
-      {open && <ChangePrinter open={open} handleClose={handleClose} />}
+      {open && <ChangePrinter open={open} onChange={onChange} handleClose={handleClose} />}
     </>
   );
 }

@@ -8,10 +8,11 @@ import Box from '@mui/material/Box';
 
 type Props = {
   canEdit?: boolean;
+  onChange?: () => void;
   chipProps?: ChipProps;
 };
 
-export default function CurrentCompanyDivision({ canEdit, chipProps }: Props) {
+export default function CurrentCompanyDivision({ canEdit, onChange, chipProps }: Props) {
   const { company, companyName, division, divisionName, environment, tenantId } = useAppSelector(
     state => state.userContext
   );
@@ -51,7 +52,7 @@ export default function CurrentCompanyDivision({ canEdit, chipProps }: Props) {
           {...chipProps}
         />
       </Tooltip>
-      {open && <ChangeCompanyDivision open={open} handleClose={handleClose} />}
+      {open && <ChangeCompanyDivision open={open} onChange={onChange} handleClose={handleClose} />}
     </>
   );
 }

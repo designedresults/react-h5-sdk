@@ -13,9 +13,10 @@ import { AutocompleteCompany, AutocompleteDivision } from '../form';
 type Props = {
   open: boolean;
   handleClose: () => void;
+  onChange?: () => void;
 };
 
-export default function ChangeCompanyDivision({ open, handleClose }: Props) {
+export default function ChangeCompanyDivision({ open, handleClose, onChange }: Props) {
   const { company, division } = useAppSelector(state => state.userContext);
   const [submit, action] = userApi.useChangeCompanyDivisionMutation();
 
@@ -25,6 +26,9 @@ export default function ChangeCompanyDivision({ open, handleClose }: Props) {
         defaultValues={{ company: company ?? '', division: division ?? '' }}
         onSuccess={async data => {
           await submit(data).unwrap();
+          if (onChange) {
+            onChange();
+          }
           handleClose();
         }}
       >

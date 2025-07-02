@@ -13,9 +13,10 @@ import Button from '@mui/material/Button';
 type Props = {
   open: boolean;
   handleClose: () => void;
+  onChange?: () => void;
 };
 
-export default function ChangeFacilityWarehouse({ open, handleClose }: Props) {
+export default function ChangeFacilityWarehouse({ open, handleClose, onChange }: Props) {
   const { printer } = useAppSelector(state => state.userContext);
   const [submit, action] = userApi.useChangePrinterMutation();
 
@@ -26,6 +27,9 @@ export default function ChangeFacilityWarehouse({ open, handleClose }: Props) {
         onSuccess={async data => {
           const printMedia = Object.assign({ device: data.printer, printer });
           await submit(printMedia).unwrap();
+          if (onChange) {
+            onChange()
+          }
           handleClose();
         }}
       >
