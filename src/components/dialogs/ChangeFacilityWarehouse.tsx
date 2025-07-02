@@ -10,14 +10,14 @@ import { FormContainer } from 'react-hook-form-mui';
 import { useAppSelector, userApi } from '../../features/store';
 import AutocompleteFacility from '../form/AutocompleteFacility';
 import AutocompleteWarehouse from '../form/AutocompleteWarehouse';
-import Typography from '@mui/material/Typography';
 
 type Props = {
   open: boolean;
   handleClose: () => void;
+  onChange?: () => void;
 };
 
-export default function ChangeFacilityWarehouse({ open, handleClose }: Props) {
+export default function ChangeFacilityWarehouse({ open, handleClose, onChange }: Props) {
   const { facility, warehouse } = useAppSelector(state => state.userContext);
   const [submit, action] = userApi.useChangeFacilityWarehouseMutation();
   if (action.isError) {
@@ -30,6 +30,9 @@ export default function ChangeFacilityWarehouse({ open, handleClose }: Props) {
         defaultValues={{ facility: facility ?? '', warehouse: warehouse ?? '' }}
         onSuccess={async data => {
           await submit(data).unwrap();
+          if (onChange) {
+            onChange();
+          }
           handleClose();
         }}
       >

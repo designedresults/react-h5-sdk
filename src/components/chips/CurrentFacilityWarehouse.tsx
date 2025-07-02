@@ -8,10 +8,11 @@ import Box from '@mui/material/Box';
 
 type Props = {
   canEdit?: boolean;
+  onChange?: () => void;
   chipProps?: ChipProps;
 };
 
-export default function CurrentFacilityWarehouse({ canEdit, chipProps }: Props) {
+export default function CurrentFacilityWarehouse({ canEdit, onChange, chipProps }: Props) {
   const { facility, facilityName, warehouse, warehouseName } = useAppSelector(state => state.userContext);
 
   const [open, setOpen] = useState(false);
@@ -49,7 +50,7 @@ export default function CurrentFacilityWarehouse({ canEdit, chipProps }: Props) 
           {...chipProps}
         />
       </Tooltip>
-      {open && <ChangeFacilityWarehouse open={open} handleClose={handleClose} />}
+      {open && <ChangeFacilityWarehouse open={open} handleClose={handleClose} onChange={onChange} />}
     </>
   );
 }
