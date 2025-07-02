@@ -2,8 +2,9 @@ import { useGridApiContext, GridApiPro, GridEventListener, gridRowSelectionIdsSe
 
 import { useEffect, useState } from 'react';
 
-export function useSelectedRowsPro(apiRef?: React.RefObject<GridApiPro | null>) {
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+export function useSelectedRowsPro<T>(apiRef?: React.RefObject<GridApiPro | null>) {
+  const [selectedRows, setSelectedRows] = useState<T[]>([]);
+  
   if (!apiRef) {
     apiRef = useGridApiContext() as React.RefObject<GridApiPro | null>;
   }
@@ -12,7 +13,7 @@ export function useSelectedRowsPro(apiRef?: React.RefObject<GridApiPro | null>) 
     const handleRowClick: GridEventListener<'rowSelectionChange'> = () => {
       if (apiRef) {
         const rows = Array.from(gridRowSelectionIdsSelector(apiRef)?.values()) ?? [];
-        setSelectedRows(rows);
+        setSelectedRows(rows as T[]);
       }
     };
     return apiRef?.current?.subscribeEvent('rowSelectionChange', handleRowClick);
