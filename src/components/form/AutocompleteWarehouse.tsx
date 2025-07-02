@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { AutocompleteProps } from '@mui/material/Autocomplete';
 import { AutocompleteElement, useFormContext } from 'react-hook-form-mui';
@@ -9,8 +9,16 @@ export default function AutocompleteWarehouse(
 ) {
   const { userId } = useAppSelector(state => state.userContext);
   const ctx = useFormContext();
-
-  const facility = ctx.watch('facility');
+  const [facility, warehouse] = ctx.watch(['facility','warehouse']);
+  
+  const { data: mainWarehouse } = userApi.useGetMainWarehouseQuery(facility, { skip: !facility });
+  
+  useEffect(() => {
+    if (facility && mainWarehouse) {
+      ctx.setValue('warehouse', mainWarehouse)
+    }
+  }, [facility, mainWarehouse])
+  
   const { data, isLoading } = userApi.useListWarehouseByFacilityQuery(facility, {
     skip: !userId,
   });
