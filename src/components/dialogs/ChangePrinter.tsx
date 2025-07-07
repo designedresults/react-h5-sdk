@@ -9,6 +9,7 @@ import { FormContainer } from 'react-hook-form-mui';
 import { useAppSelector, userApi } from '../../features/store';
 import AutocompletePrinter from '../form/AutocompletePrinter';
 import Button from '@mui/material/Button';
+import { IUserOutputMedia } from '../../features';
 
 type Props = {
   open: boolean;
@@ -25,10 +26,11 @@ export default function ChangeFacilityWarehouse({ open, handleClose, onChange }:
       <FormContainer
         defaultValues={{ printer: printer?.device ?? '' }}
         onSuccess={async data => {
-          const printMedia = Object.assign({ device: data.printer, printer });
-          await submit(printMedia).unwrap();
+          const newPrinter: IUserOutputMedia = {...printer};
+          newPrinter.device = data.printer
+          await submit(data.printer).unwrap();
           if (onChange) {
-            onChange()
+            onChange();
           }
           handleClose();
         }}
@@ -43,7 +45,7 @@ export default function ChangeFacilityWarehouse({ open, handleClose, onChange }:
           <Button onClick={handleClose} disabled={action.isLoading}>
             Cancel
           </Button>
-          <Button variant="contained" startIcon={<EditIcon />} loading={action.isLoading}>
+          <Button type="submit" variant="contained" startIcon={<EditIcon />} loading={action.isLoading}>
             Update
           </Button>
         </DialogActions>

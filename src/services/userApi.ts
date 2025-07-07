@@ -177,7 +177,7 @@ export const configureUserApi = (m3api: M3API) => {
           return { data: printers };
         },
       }),
-      changePrinter: builder.mutation<void, { printer: IUserOutputMedia | undefined | null }>({
+      changePrinter: builder.mutation<void, string>({
         queryFn: async (data, api) => {
           const { userId, company, printer } = (api.getState() as RootState).userContext;
           if (!userId) {
@@ -186,17 +186,17 @@ export const configureUserApi = (m3api: M3API) => {
           if (!company) {
             throw new Error('Default company must be set to change printer.');
           }
-          if (!data?.printer) {
+          if (!data) {
             throw new Error('Device must be set to change printer.');
           }
           await m3api.execute({
-            program: 'MNS204MI',
+            program: 'MNS205MI',
             transaction: 'UpdPrtMedia',
             record: {
               USID: userId,
               DIVI: printer?.division,
               PRTF: printer?.printerFile,
-              DEV1: data?.printer,
+              DEV: data,
               SEQN: printer?.sequence,
             },
           });
