@@ -41,7 +41,7 @@ export default function ChangeCompanyDivision({ open, handleClose, onChange }: P
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} disabled={action.isLoading}>Cancel</Button>
-          <Button variant="contained" startIcon={<EditIcon />} loading={action.isLoading}>
+          <Button type="submit" variant="contained" startIcon={<EditIcon />} loading={action.isLoading}>
             Update
           </Button>
         </DialogActions>
