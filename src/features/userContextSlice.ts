@@ -6,14 +6,14 @@ import { AppThunk } from './store';
 import { M3API } from '@designedresults/m3api-h5-sdk';
 import { getUserContext } from '../services/user';
 
- export interface IUserContextState extends IUserDefaults {
+export interface IUserContextState extends IUserDefaults {
   userId: string;
   userName: string;
-  principleUser: string;
   environment: string;
   tenantId: string;
   printer?: IUserOutputMedia;
   roles: string[];
+  impersonator: string | null;
 }
 
 export interface IUserOutputMedia {
@@ -39,7 +39,6 @@ export interface IUserDefaults {
 export const initialState: IUserContextState = {
   userId: '',
   userName: '',
-  principleUser: '',
   environment: '',
   tenantId: '',
   company: '',
@@ -47,7 +46,8 @@ export const initialState: IUserContextState = {
   facility: '',
   warehouse: '',
   printer: {},
-  roles: []
+  roles: [],
+  impersonator: null
 };
 
 
@@ -61,7 +61,6 @@ const userContextSlice = createSlice({
     ) => {
       state.userId = action.payload.userId;
       state.userName = action.payload.userName;
-      state.principleUser = action.payload.principleUser;
       state.environment = action.payload.environment;
       state.tenantId = action.payload.tenantId;
       state.company = action.payload.company;
@@ -73,7 +72,8 @@ const userContextSlice = createSlice({
       state.warehouse = action.payload.warehouse;
       state.warehouseName = action.payload.warehouseName;
       state.printer = action.payload.printer;
-      state.roles= action.payload.roles;
+      state.roles = action.payload.roles;
+      state.impersonator = action.payload.impersonator
     },
     setDefaults: (
       state: IUserContextState,
@@ -91,22 +91,16 @@ const userContextSlice = createSlice({
       if (action.payload?.warehouse) {
         state.warehouse = action.payload.warehouse;
       }
-    },
-    setPrinter: (
-      state: IUserContextState,
-      action: PayloadAction<IUserOutputMedia>
-    ) => {
-      state.printer = action.payload;
-    },
+    }
   },
 });
 
 export const userContextReducer = userContextSlice.reducer
 
 
-export const loadUserContext = (m3api: M3API): AppThunk => {
-  return async (dispatch)=>  {
-    const userContext = await getUserContext(m3api);
+export const loadUserContext = (m3api: M3API, userId: string | null): AppThunk => {
+  return async (dispatch) => {
+    const userContext = await getUserContext(m3api, userId);
     dispatch({ type: 'userContext/setUserContext', payload: userContext });
   }
 }

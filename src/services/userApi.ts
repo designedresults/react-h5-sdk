@@ -2,7 +2,8 @@ import { M3API } from '@designedresults/m3api-h5-sdk';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { fnBaseQuery } from '.';
 import { RootState } from '..';
-import { IUserOutputMedia, loadUserContext } from '../features/userContextSlice';
+import { IUserContextState, loadUserContext } from '../features/userContextSlice';
+import { getUserContext } from './user';
 
 export const configureUserApi = (m3api: M3API) => {
   const userApi = createApi({
@@ -63,7 +64,7 @@ export const configureUserApi = (m3api: M3API) => {
               id: item.DIVI === '' ? 'BLANK' : item.DIVI,
               label: `${item.DIVI === '' ? 'BLANK' : item.DIVI} - ${item.TX40}`,
             }));
-          api.dispatch(loadUserContext);
+          
           return { data: divisions };
         },
       }),
@@ -88,7 +89,7 @@ export const configureUserApi = (m3api: M3API) => {
             },
           });
 
-          api.dispatch(loadUserContext(m3api));
+          api.dispatch(loadUserContext(m3api, userId));
           return { data: undefined };
         },
       }),
@@ -159,7 +160,7 @@ export const configureUserApi = (m3api: M3API) => {
               WHLO: args.warehouse,
             },
           });
-          api.dispatch(loadUserContext(m3api));
+          api.dispatch(loadUserContext(m3api, userId));
           return { data: undefined };
         },
       }),
@@ -200,8 +201,33 @@ export const configureUserApi = (m3api: M3API) => {
               SEQN: printer?.sequence,
             },
           });
-          api.dispatch(loadUserContext(m3api));
+          api.dispatch(loadUserContext(m3api, userId));
           return { data: undefined };
+        },
+      }),
+      getUser: builder.query<IUserContextState, string | null>({
+        queryFn: async (args) => {
+          try {
+            const user = await getUserContext(m3api, args)
+            return { data: user };
+          } catch (error) {
+            return { error }
+          }
+        },
+      }),
+      listUsers: builder.query<any[], void>({
+        queryFn: async () => {
+          try {
+            const response = await m3api.execute({
+              program: 'MNS150MI',
+              transaction: 'LstUserData',
+              selectedColumns: ['USID', 'TX40']
+            });
+            const users = response.records.map(rec => ({ id: rec.USID, label: `${rec.USID} - ${rec.TX40}` }))
+            return { data: users };
+          } catch (error) {
+            return { error }
+          }
         },
       }),
     }),

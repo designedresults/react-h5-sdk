@@ -36,7 +36,7 @@ import { DataGridPro } from '@mui/x-data-grid-pro';
 LicenseInfo.setLicenseKey(import.meta.env.VITE_MUI_PRO_KEY);
 
 const m3api = new M3API();
-store.dispatch(loadUserContext(m3api));
+store.dispatch(loadUserContext(m3api, null));
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -61,7 +61,7 @@ function Layout() {
           </Typography>
           <Box flexGrow={1} />
           <Stack direction="row" spacing={1}>
-            <CurrentUser chipProps={{ size: 'small' }} showRoles />
+            <CurrentUser chipProps={{ size: 'small', variant: 'outlined' }} showRoles canImpersonate />
             <CurrentCompanyDivision chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
             <CurrentFacilityWarehouse chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
             <CurrentPrinter chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
