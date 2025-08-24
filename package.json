@@ -39,6 +39,7 @@
     "@types/node": "^24.3.0",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@types/redux-logger": "^3.0.13",
     "@types/supertest": "^6.0.3",
     "@vitejs/plugin-react": "latest",
     "concurrently": "^9.2.0",
@@ -70,8 +71,9 @@
     "react-router-dom": "^7.4.0"
   },
   "dependencies": {
-    "@mui/x-data-grid-pro": "^8.10.0",
-    "@mui/x-license": "^8.10.0",
-    "@mui/x-telemetry": "^8.5.3"
+    "@mui/x-data-grid-pro": "^8.10.2",
+    "@mui/x-license": "^8.10.2",
+    "@mui/x-telemetry": "^8.5.4",
+    "redux-logger": "^3.0.6"
   }
 }

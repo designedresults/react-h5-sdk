@@ -2,12 +2,12 @@ import React from 'react';
 
 import { AutocompleteProps } from '@mui/material/Autocomplete';
 import { AutocompleteElement } from 'react-hook-form-mui';
-import { userApi } from '../..';
+import { useListFacilitiesQuery } from '@/features/user/api/listFacilities';
 
 export default function AutocompleteFacility(
   props: Omit<AutocompleteProps<string, false, false, false>, 'options' | 'renderInput'>
 ) {
-  const { data, isLoading } = userApi.useListFacilitiesQuery();
+  const { data, isLoading } = useListFacilitiesQuery();
 
   return (
     <AutocompleteElement

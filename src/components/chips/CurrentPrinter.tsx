@@ -1,10 +1,11 @@
 import PrintIcon from '@mui/icons-material/Print';
 import Chip, { ChipProps } from '@mui/material/Chip';
 import React, { useState } from 'react';
-import { useAppSelector } from '../../features/store';
-import ChangePrinter from '../dialogs/ChangePrinter';
-import Tooltip from '@mui/material/Tooltip';
+
+import { useAppSelector } from '@/store';
 import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
+import ChangePrinter from '../dialogs/ChangePrinter';
 
 type Props = {
   canEdit?: boolean;
@@ -12,8 +13,8 @@ type Props = {
   chipProps?: ChipProps
 };
 
-export default function CurrentPrinter({canEdit, onChange, chipProps}: Props) {
-  
+export default function CurrentPrinter({ canEdit, onChange, chipProps }: Props) {
+
   const { printer } = useAppSelector(state => state.userContext);
 
   const [open, setOpen] = useState(false);
@@ -24,7 +25,7 @@ export default function CurrentPrinter({canEdit, onChange, chipProps}: Props) {
     setOpen(false);
   };
 
-  if (printer === null) {
+  if (!printer) {
     return;
   }
 
@@ -48,7 +49,7 @@ export default function CurrentPrinter({canEdit, onChange, chipProps}: Props) {
           {...chipProps}
         />
       </Tooltip>
-      {open && <ChangePrinter open={open} onChange={onChange} handleClose={handleClose} />}
+      <ChangePrinter open={open} onChange={onChange} handleClose={handleClose} />
     </>
   );
 }

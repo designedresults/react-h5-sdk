@@ -1,10 +1,11 @@
 import BusinessIcon from '@mui/icons-material/Business';
 import Chip, { ChipProps } from '@mui/material/Chip';
 import React, { useState } from 'react';
-import { useAppSelector } from '../../features/store';
-import ChangeFacilityWarehouse from '../dialogs/ChangeFacilityWarehouse';
-import Tooltip from '@mui/material/Tooltip';
+
+import { useAppSelector } from '@/store';
 import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
+import ChangeFacilityWarehouse from '../dialogs/ChangeFacilityWarehouse';
 
 type Props = {
   canEdit?: boolean;
@@ -50,7 +51,7 @@ export default function CurrentFacilityWarehouse({ canEdit, onChange, chipProps 
           {...chipProps}
         />
       </Tooltip>
-      {open && <ChangeFacilityWarehouse open={open} handleClose={handleClose} onChange={onChange} />}
+      <ChangeFacilityWarehouse open={open} handleClose={handleClose} onChange={onChange} />
     </>
   );
 }

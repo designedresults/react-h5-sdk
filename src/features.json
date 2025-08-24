@@ -1,0 +1,8 @@
+{
+  "sawmill": {
+    "*": ["SUP"],
+    "orders": {
+      "createOrder": ["SUP"]
+    }
+  }
+}

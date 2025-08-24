@@ -1,28 +1,32 @@
 import React from 'react';
 
-import { AutocompleteProps } from '@mui/material/Autocomplete';
-import { AutocompleteElement, useFormContext } from 'react-hook-form-mui';
-import { userApi } from '../..';
+
+import { AutocompleteElement, AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
+import { useListUsersQuery } from '@/features/user/api/listUsers';
 
 export default function AutocompleteUser(
-  props: Omit<AutocompleteProps<string, false, false, false>, 'options' | 'renderInput'>
+  props: Partial<Omit<AutocompleteElementProps<{id: string, label: string}, false, false, false>, 'options' | 'loading'>>
 ) {
-  const { data, isLoading } = userApi.useListUsersQuery()
+  const { data, isLoading, isFetching, error } = useListUsersQuery()
+  const { formState } = useFormContext();
 
-    const { formState } = useFormContext();
+  if (error) {
+    return null
+  }
 
   return (
     <AutocompleteElement
-      name="user"
-      label="User"
-      required
-      loading={isLoading}
-      options={data as any[] ?? []}
+      {...props}
+      name={props.name || 'userId'}
+      label={props.label || 'User'}
+      loading={isLoading || isFetching}
+      options={data ?? []}
+      matchId
       autocompleteProps={{
         disabled: formState.isSubmitting,
-        autoHighlight: true,
-        ...props
+        
       }}
+
     />
   );
 }

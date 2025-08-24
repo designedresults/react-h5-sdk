@@ -4,12 +4,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormContainer } from 'react-hook-form-mui';
-import { useAppSelector, userApi } from '../../features/store';
-import AutocompletePrinter from '../form/AutocompletePrinter';
+
+import { useChangePrinterMutation } from '@/features/user/api/changePrinter';
+import { useAppSelector } from '@/store';
 import Button from '@mui/material/Button';
-import { IUserOutputMedia } from '../../features';
+import AutocompletePrinter from '../form/AutocompletePrinter';
 
 type Props = {
   open: boolean;
@@ -18,21 +19,29 @@ type Props = {
 };
 
 export default function ChangeFacilityWarehouse({ open, handleClose, onChange }: Props) {
-  const { printer } = useAppSelector(state => state.userContext);
-  const [submit, action] = userApi.useChangePrinterMutation();
+  const { userId, division, printer } = useAppSelector(state => state.userContext);
+  const [submit, action] = useChangePrinterMutation();
+
+  useEffect(() => {
+    if (onChange) {
+      onChange();
+    }
+    handleClose();
+  }, [action.isSuccess])
 
   return (
     <Dialog open={open} fullWidth maxWidth={'sm'}>
       <FormContainer
-        defaultValues={{ printer: printer?.device ?? '' }}
-        onSuccess={async data => {
-          const newPrinter: IUserOutputMedia = {...printer};
-          newPrinter.device = data.printer
-          await submit(data.printer).unwrap();
-          if (onChange) {
-            onChange();
-          }
-          handleClose();
+        defaultValues={{
+          userId,
+          division,
+          printerFile: printer?.printerFile ?? '',
+          device: printer?.device ?? '',
+          sequence: printer?.sequence ?? ''
+        }}
+
+        onSuccess={async (data) => {
+          await submit(data).unwrap();
         }}
       >
         <DialogTitle>Update Printer</DialogTitle>

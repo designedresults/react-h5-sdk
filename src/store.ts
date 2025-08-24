@@ -1,18 +1,23 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { useDispatch, useSelector } from 'react-redux';
-import { configureUserApi } from "../services/userApi";
-import { userContextReducer } from './userContextSlice';
-import { M3API } from '@designedresults/m3api-h5-sdk';
 
-export const m3api = new M3API()
-export const userApi = configureUserApi(m3api);
+import { useDispatch, useSelector } from 'react-redux';
+import { flagContextReducer } from './features/flag/flagSlice';
+import { userApi, userContextReducer } from './features/user';
+import { createLogger } from 'redux-logger'
+
+const logger = createLogger({
+  collapsed: true,
+  logErrors: false
+});
+
 
 export const store = configureStore({
   reducer: {
     userContext: userContextReducer,
+    flagContext: flagContextReducer,
     [userApi.reducerPath]: userApi.reducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(userApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(logger).concat(userApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

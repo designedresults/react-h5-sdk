@@ -1,4 +1,11 @@
-import { M3API } from '@designedresults/m3api-h5-sdk';
+import { Fallback, PageNotFound, useSelectedRows } from '@/components';
+import CurrentCompanyDivision from '@/components/chips/CurrentCompanyDivision';
+import CurrentFacilityWarehouse from '@/components/chips/CurrentFacilityWarehouse';
+import CurrentPrinter from '@/components/chips/CurrentPrinter';
+import CurrentUser from '@/components/chips/CurrentUser';
+import { Toolbar } from '@/components/datagrid/Toolbar';
+import { useDialog } from '@/components/dialogs/useDialog';
+import { AppToolbar } from '@/components/layout/AppToolbar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -9,34 +16,37 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { DataGrid } from '@mui/x-data-grid/DataGrid';
+import { DataGridPro } from '@mui/x-data-grid-pro';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { LicenseInfo } from '@mui/x-license';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
-import { FormContainer, TextFieldElement } from 'react-hook-form-mui';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
-import { Fallback, PageNotFound, useSelectedRows } from './components';
-import CurrentCompanyDivision from './components/chips/CurrentCompanyDivision';
-import CurrentFacilityWarehouse from './components/chips/CurrentFacilityWarehouse';
-import CurrentPrinter from './components/chips/CurrentPrinter';
-import CurrentUser from './components/chips/CurrentUser';
-import { Toolbar } from './components/datagrid/Toolbar';
-import { useDialog } from './components/dialogs/useDialog';
-import { AppToolbar } from './components/layout/AppToolbar';
-import { SizedBox } from './components/layout/SizedBox';
-import { store, useAppSelector } from './features/store';
-import { loadUserContext } from './features/userContextSlice';
+
+import { setFlagConfig, useFlag, useFlags } from './features/flag/flagSlice';
+import { store, useAppSelector } from './store';
 import theme from './theme';
-import { LicenseInfo } from '@mui/x-license';
-import { DataGridPro } from '@mui/x-data-grid-pro';
+import { initUserContext } from './features/user/api/getUserContext';
+
+
 
 LicenseInfo.setLicenseKey(import.meta.env.VITE_MUI_PRO_KEY);
+store.dispatch(initUserContext())
 
-const m3api = new M3API();
-store.dispatch(loadUserContext(m3api, null));
+const flagConfig = {
+  "showCompanyDivision": ['TESTIFS'],
+  "showFacilityWarehouse": ['TESTIFS'],
+  "showPrinter": ['TESTIFS'],
+  "somethingElse": [],
+  "canImpersonate": ['MANSUPERVI'],
+  "glulamCloseOrder": ["RMFGSUPINT"]
+}
+store.dispatch(setFlagConfig(flagConfig));
+
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -51,29 +61,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 );
 
-function Layout() {
-  return (
-    <>
-      <ErrorBoundary FallbackComponent={Fallback}>
-        <AppToolbar>
-          <Typography variant="h4" component="p">
-            App Title
-          </Typography>
-          <Box flexGrow={1} />
-          <Stack direction="row" spacing={1}>
-            <CurrentUser chipProps={{ size: 'small', variant: 'outlined' }} showRoles canImpersonate />
-            <CurrentCompanyDivision chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
-            <CurrentFacilityWarehouse chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
-            <CurrentPrinter chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
-          </Stack>
-        </AppToolbar>
-        <Outlet />
-      </ErrorBoundary>
-    </>
-  );
-}
+function App() {  
 
-function App() {
   return (
     <BrowserRouter>
       <Routes>
@@ -86,12 +75,48 @@ function App() {
   );
 }
 
+function Layout() {
+  const [f1, f2, f3] = useFlags(["showCompanyDivision", "showFacilityWarehouse", "showPrinter"])
+  const canImpersonate = useFlag("canImpersonate")
+
+
+
+  return (
+    <>
+      <ErrorBoundary FallbackComponent={Fallback}>
+        <AppToolbar>
+          <Typography variant="h4" component="p">
+            App Title
+          </Typography>
+          <Box flexGrow={1} />
+          <Stack direction="row" spacing={1}>
+            <CurrentUser chipProps={{ size: 'small', variant: 'outlined' }} showRoles canImpersonate={canImpersonate} />
+            {f1 &&
+              <CurrentCompanyDivision chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
+            }
+            {f2 &&
+              <CurrentFacilityWarehouse chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
+            }
+            {f3 &&
+              <CurrentPrinter chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
+            }
+          </Stack>
+        </AppToolbar>
+        <Outlet />
+      </ErrorBoundary>
+    </>
+  );
+}
+
 function Page() {
-  const state = useAppSelector(state => state);
+  const state = useAppSelector(state => state.userContext);
+  const flag = useAppSelector(state => state.flagContext);
   const { Dialog, show } = useDialog({ title: 'Default title', severity: 'success' });
+
   return (
     <>
       <Dialog />
+      <pre>{JSON.stringify({state, flag}, null, 2)}</pre>
       <Container maxWidth="lg">
         <Grid container component={Paper} marginY={1}>
           <Grid size={6}>
@@ -100,10 +125,10 @@ function Page() {
           </Grid>
           <Grid size={6}>
             <Typography variant="subtitle2">Globally delcared vars</Typography>
-            <pre>{JSON.stringify({ __APP_NAME__, __APP_DESCRIPTION__, __APP_VERSION__, __BUILD_DATE__ }, null, 2)}</pre>
+            <pre>{JSON.stringify({  __APP_NAME__, __APP_DESCRIPTION__, __APP_VERSION__, __BUILD_DATE__ }, null, 2)}</pre>
           </Grid>
         </Grid>
-        <Box marginY={2}>
+        {/* <Box marginY={2}>
           <FormContainer
             onSuccess={async data => {
               if (Number(data.field1) > 100) {
@@ -137,7 +162,7 @@ function Page() {
           >
             Show Error Dialog
           </Button>
-          {/* <Button
+          <Button
             color="success"
             onClick={async () => {
               console.log(
@@ -146,8 +171,8 @@ function Page() {
             }}
           >
             Show Success Dialog
-          </Button> */}
-          {/* <Button
+          </Button>
+          <Button
             color="warning"
             onClick={async () => {
               console.log(
@@ -170,7 +195,7 @@ function Page() {
             }}
           >
             Show Error Dialog
-          </Button> */}
+          </Button>
         </Box>
         <Box marginY={1}>
           <SampleDataGrid />
@@ -188,7 +213,7 @@ function Page() {
               {JSON.stringify(state, null, 2)}
             </pre>
           </SizedBox>
-        </Paper>
+        </Paper> */}
       </Container>
     </>
   );
@@ -201,7 +226,7 @@ function SampleDataGrid() {
       <Toolbar
         title="Custom Toolbar Title"
         titleProps={{ variant: 'body1' }}
-        refresh={() => {}}
+        refresh={() => { }}
         refreshButtonProps={{ size: 'small' }}
       >
         <ButtonGroup size="small">
@@ -218,7 +243,7 @@ function SampleDataGrid() {
       rows={[
         { id: 0, A: '111', B: '222' },
         { id: 1, A: '333', B: '444' },
-      ]}      
+      ]}
       hideFooter={true}
       slots={{
         toolbar: CustomDataGridToolbar,

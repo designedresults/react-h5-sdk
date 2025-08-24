@@ -1,13 +1,15 @@
+import { ChangeCompanyDivisionArgs, useChangeCompanyDivisionMutation } from '@/features/user/api/changeCompanyDivision';
+import { useAppSelector } from '@/store';
 import EditIcon from '@mui/icons-material/edit';
+import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
-import React from 'react';
-import { FormContainer } from 'react-hook-form-mui';
-import { useAppSelector, userApi } from '../../features/store';
+import React, { useEffect } from 'react';
+import { FormContainer, useForm } from 'react-hook-form-mui';
 import { AutocompleteCompany, AutocompleteDivision } from '../form';
 
 type Props = {
@@ -17,20 +19,33 @@ type Props = {
 };
 
 export default function ChangeCompanyDivision({ open, handleClose, onChange }: Props) {
-  const { company, division } = useAppSelector(state => state.userContext);
-  const [submit, action] = userApi.useChangeCompanyDivisionMutation();
+  const { userId, company, division } = useAppSelector(state => state.userContext);
+  const formContext = useForm<ChangeCompanyDivisionArgs>({
+    defaultValues: {
+      userId,
+      company: company ?? '',
+      division: division ?? ''
+    }
+  })
+  const { formState, reset } = formContext
+  const [submit, { isSuccess, error }] = useChangeCompanyDivisionMutation();
+
+
+  useEffect(() => {
+    if (isSuccess) {
+      if (onChange) {
+        onChange();
+      }
+      reset()
+      handleClose();
+    }
+  }, [isSuccess])
 
   return (
     <Dialog open={open} fullWidth maxWidth={'sm'}>
       <FormContainer
-        defaultValues={{ company: company ?? '', division: division ?? '' }}
-        onSuccess={async data => {
-          await submit(data).unwrap();
-          if (onChange) {
-            onChange();
-          }
-          handleClose();
-        }}
+        formContext={formContext}
+        onSuccess={submit}
       >
         <DialogTitle>Update Company and Division</DialogTitle>
         <DialogContent>
@@ -38,10 +53,13 @@ export default function ChangeCompanyDivision({ open, handleClose, onChange }: P
             <AutocompleteCompany />
             <AutocompleteDivision />
           </Stack>
+          {error !== undefined &&
+            <Typography color="error" sx={{ textAlign: 'right' }}>{JSON.stringify(error, null, 2)}</Typography>
+          }
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} disabled={action.isLoading}>Cancel</Button>
-          <Button type="submit" variant="contained" startIcon={<EditIcon />} loading={action.isLoading}>
+          <Button onClick={handleClose} disabled={formState.isSubmitting}>Cancel</Button>
+          <Button type="submit" variant="contained" startIcon={<EditIcon />} loading={formState.isSubmitting}>
             Update
           </Button>
         </DialogActions>

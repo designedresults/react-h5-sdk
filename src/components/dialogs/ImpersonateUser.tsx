@@ -1,18 +1,26 @@
-import PersonIcon from '@mui/icons-material/Person';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import { CircularProgress } from '@mui/material';
+import { usePreviewFlags } from '@/features/flag/flagSlice';
+import { useGetUserContextQuery, useSetUserContextMutation } from '@/features/user/api/getUserContext';
+import AddModeratorIcon from '@mui/icons-material/AddModerator';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import React from 'react';
-import { FormProvider, useForm } from 'react-hook-form-mui';
-import { useAppDispatch, useAppSelector, userApi } from '../../features';
+import React, { useEffect } from 'react';
+import { FormContainer, useForm } from 'react-hook-form-mui';
 import AutocompleteUser from '../form/AutocompleteUser';
+import ResultDialog from './ResultDialog';
+
 
 type Props = {
   open: boolean;
@@ -21,86 +29,147 @@ type Props = {
 };
 
 export default function ImpersonateUser({ open, handleClose, onChange }: Props) {
-  const { userId, userName } = useAppSelector(state => state.userContext)
-  const dispatch = useAppDispatch()
+
   type FormValues = {
-    user: { id: string, label: string } | null,
+    userId: string
   }
   const formContext = useForm<FormValues>({
-    mode: 'all',
     defaultValues: {
-      user: { id: userId, label: userName },
+      userId: ""
     }
   })
-  const { watch, handleSubmit, formState } = formContext
+  const { watch, formState, reset } = formContext
 
-  const user = watch('user')
+  const [submit, result] = useSetUserContextMutation()
 
-  const { data: userContext, isLoading, isFetching } = userApi.useGetUserQuery(user?.id ?? null, { skip: !user })
+  const selectedUserId = watch('userId')
 
-  const loading = isLoading || isFetching
+
+  useEffect(() => {
+    reset()
+    if (onChange) {
+      onChange()
+    }
+    handleDialogClose()
+  }, [formState.isSubmitSuccessful])
+
+  const handleDialogClose = () => {
+    result.reset()
+    handleClose()
+  }
+
 
   return (
-    <Dialog open={open} fullWidth maxWidth={'sm'}>
-      <FormProvider {...formContext}>
-        <form >
+    <>
+      <Dialog open={open} fullWidth maxWidth={'sm'}>
+        <FormContainer
+          formContext={formContext}
+          onSuccess={async (data) => { await submit(data) }}
+        >
           <DialogTitle>Impersonate User</DialogTitle>
           <DialogContent>
             <Stack direction="column" spacing={2} margin={2}>
-              <AutocompleteUser />
-              <Box p={1} height={160} alignContent={"center"} >
-                {(loading) &&
-                  <Box textAlign={"center"}>
-                    <CircularProgress />
-                  </Box>
-                }
-
-                {userContext && !(loading) &&
-                  <>
-                    <Typography>Company: {userContext.company} - {userContext.companyName}</Typography>
-                    <Typography>Division: {userContext.division} - {userContext.divisionName}</Typography>
-                    <Typography>Facility: {userContext.facility} - {userContext.facilityName}</Typography>
-                    <Typography>Warehouse: {userContext.warehouse} - {userContext.warehouseName}</Typography>
-                    <Typography>Roles: {userContext.roles.join(', ')}</Typography>
-                  </>
-                }
-              </Box>
+              <AutocompleteUser required />
+              {selectedUserId &&
+                <Box p={1} height={300} alignContent={"center"} >
+                  <UserDetails userId={selectedUserId} />
+                </Box>
+              }
             </Stack>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} >Cancel</Button>
+            <Button onClick={handleDialogClose} disabled={formState.isSubmitting}>Cancel</Button>
             <Button
-              variant="outlined"
-              loading={formState.isSubmitting}
-              startIcon={<PersonIcon />}
-              onClick={handleSubmit(async () => {
-                const { data } = await dispatch(userApi.endpoints.getUser.initiate(null));
-                dispatch({ type: 'userContext/setUserContext', payload: data });
-                if (onChange) {
-                  onChange()
-                }
-                handleClose()
-              })}
-            >
-              Revert
-            </Button>
-            <Button
+              type="submit"
               variant="contained"
-              disabled={loading}
               loading={formState.isSubmitting}
-              startIcon={<SupervisorAccountIcon />}
-              onClick={handleSubmit(async (data) => {
-                dispatch({ type: 'userContext/setUserContext', payload: userContext });
-                if (onChange) {
-                  onChange()
-                }
-                handleClose()
-              })} >
+              startIcon={<AddModeratorIcon />}
+            >
               Impersonate
             </Button>
           </DialogActions>
-        </form>
-      </FormProvider>
-    </Dialog>
+        </FormContainer>
+      </Dialog>
+
+
+      {(result.isError || result.isSuccess) &&
+        <ResultDialog result={result} title="Impersonate User" errorMessage='Failed to impersonate user.' />
+      }
+
+
+    </>
   );
+}
+
+type UserDetailsProps = {
+  userId: string
+}
+export function UserDetails({ userId }: UserDetailsProps) {
+  const { data, isLoading, isFetching, error } = useGetUserContextQuery({userId})
+  const flags = usePreviewFlags(data?.roles)
+
+  if (error) {
+    return (
+      <Box color="error">
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </Box>
+    )
+  }
+
+  if (isLoading || isFetching || !data) {
+    return (
+      <Box textAlign={"center"}>
+        <CircularProgress />
+      </Box>
+    )
+  }
+
+  return (
+
+    <Table size="small">
+      <TableBody>
+        <TableRow>
+          <TableCell>User id</TableCell>
+          <TableCell>{data.userId}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>User name</TableCell>
+          <TableCell>{data.userName}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Company</TableCell>
+          <TableCell>{data.company} - {data.companyName}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Division</TableCell>
+          <TableCell>{data.division === "" ? "BLANK" : data.division} - {data.divisionName}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Facility</TableCell>
+          <TableCell>{data.facility} - {data.facilityName}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Warehouse</TableCell>
+          <TableCell>{data.warehouse} - {data.warehouseName}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell rowSpan={data.roles.length + 1}>Roles</TableCell>
+        </TableRow>
+        {data.roles?.map((role: string) => (<TableRow key={role}><TableCell>{role}</TableCell></TableRow>))}
+        {flags &&
+          <TableRow>
+            <TableCell>Flags</TableCell>
+            <TableCell>
+              {Object.entries(flags).map(([flag, enabled]) => (
+                <Stack key={flag} direction="row" alignItems={"center"} spacing={1}>
+                  {enabled ? <CheckBoxIcon fontSize={'small'} /> : <CheckBoxOutlineBlankIcon fontSize={'small'} />}
+                  <Typography>{flag}</Typography>
+                </Stack>))}
+            </TableCell>
+          </TableRow>
+        }
+      </TableBody>
+    </Table>
+
+  )
 }

@@ -1,10 +1,11 @@
 import LanguageIcon from '@mui/icons-material/Language';
 import Chip, { ChipProps } from '@mui/material/Chip';
 import React, { useState } from 'react';
-import { useAppSelector } from '../../features/store';
-import ChangeCompanyDivision from '../dialogs/ChangeCompanyDivision';
-import Tooltip from '@mui/material/Tooltip';
+
+import { useAppSelector } from '@/store';
 import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
+import ChangeCompanyDivision from '../dialogs/ChangeCompanyDivision';
 
 type Props = {
   canEdit?: boolean;
@@ -13,9 +14,7 @@ type Props = {
 };
 
 export default function CurrentCompanyDivision({ canEdit, onChange, chipProps }: Props) {
-  const { company, companyName, division, divisionName, environment, tenantId } = useAppSelector(
-    state => state.userContext
-  );
+  const { company, companyName, division, divisionName, environment, tenantId } = useAppSelector(state => state.userContext);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -52,7 +51,7 @@ export default function CurrentCompanyDivision({ canEdit, onChange, chipProps }:
           {...chipProps}
         />
       </Tooltip>
-      {open && <ChangeCompanyDivision open={open} onChange={onChange} handleClose={handleClose} />}
+      <ChangeCompanyDivision open={open} onChange={onChange} handleClose={handleClose} />
     </>
   );
 }

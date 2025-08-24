@@ -2,7 +2,9 @@ import React from 'react';
 
 import { AutocompleteProps } from '@mui/material/Autocomplete';
 import { AutocompleteElement, useFormContext } from 'react-hook-form-mui';
-import { useAppSelector, userApi } from '../..';
+
+import { useListDivisionsQuery } from '@/features/user/api/listDivisions';
+import { useAppSelector } from '@/store';
 
 export default function AutocompleteDivision(
   props: Omit<AutocompleteProps<string, false, false, false>, 'options' | 'renderInput'>
@@ -11,7 +13,7 @@ export default function AutocompleteDivision(
   const ctx = useFormContext();
 
   const company = ctx.watch('company');
-  const { data, isLoading } = userApi.useListDivisionsByCompanyQuery(company, {
+  const { data, isLoading } = useListDivisionsQuery({ userId, company }, {
     skip: !userId || !company,
   });
 

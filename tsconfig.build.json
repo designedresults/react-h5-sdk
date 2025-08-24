@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["tests/**/*", "src/main.tsx", "src/theme.tsx", "vite-env.d.ts", "vite.config.ts"]
+  "exclude": ["tests/**/*", "src/demo/*", "vite-env.d.ts", "vite.config.ts"]
 }
