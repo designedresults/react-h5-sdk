@@ -10,7 +10,7 @@ type Props = {
   message?: string;
 };
 
-export function PageNotFound({ title, message }: Props) {
+export default function PageNotFound({ title, message }: Props) {
   const location = useLocation();
   const navigate = useNavigate();
   let back = location.pathname.split("/").slice(0, -1).join("/");

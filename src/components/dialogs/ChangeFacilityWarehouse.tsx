@@ -7,12 +7,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import React, { useEffect } from 'react';
 import { FormContainer, useForm } from 'react-hook-form-mui';
-import AutocompleteFacility from '../form/AutocompleteFacility';
-import AutocompleteWarehouse from '../form/AutocompleteWarehouse';
+
 import ResultDialog from './ResultDialog';
+import { AutocompleteFacility, AutocompleteWarehouse } from '@/components/form';
 
 type Props = {
   open: boolean;

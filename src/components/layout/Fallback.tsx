@@ -19,14 +19,8 @@ import TableContainer from '@mui/material/TableContainer';
 import Box from '@mui/material/Box';
 import { M3APIError, M3APIErrorCause } from '@designedresults/m3api-h5-sdk';
 
-export function Fallback({ error, resetErrorBoundary }: FallbackProps) {
-  const navigate = useNavigate();
-  // const location = useLocation();
-  // let back = location.pathname.split('/').slice(0, -1).join('/');
-  // if (!back) {
-  //   back = '/';
-  // }
-
+export default function Fallback({ error, resetErrorBoundary }: FallbackProps) {
+  
   const [open, setOpen] = useState(false);
 
   const isM3APIError = error instanceof M3APIError;

@@ -1,7 +1,7 @@
-import { ChangeCompanyDivisionArgs, useChangeCompanyDivisionMutation } from '@/features/user/api/changeCompanyDivision';
+
+import { ChangeCompanyDivisionArgs, useChangeCompanyDivisionMutation } from '@/features';
 import { useAppSelector } from '@/store';
 import EditIcon from '@mui/icons-material/edit';
-import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -10,8 +10,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import React, { useEffect } from 'react';
 import { FormContainer, useForm } from 'react-hook-form-mui';
-import { AutocompleteCompany, AutocompleteDivision } from '../form';
-import ResultDialog from './ResultDialog';
+import ResultDialog  from './ResultDialog';
+import { AutocompleteCompany, AutocompleteDivision } from '@/components/form';
+
 
 type Props = {
   open: boolean;

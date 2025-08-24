@@ -21,7 +21,7 @@ type Props = {
   confirm?: boolean;
 };
 
-export function useDialog(defaultProps: Props) {
+export default function useDialog(defaultProps: Props) {
   const [promise, setPromise] = useState<any>(null);
   const [props, setProps] = useState<any>(null);
 

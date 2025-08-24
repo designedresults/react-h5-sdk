@@ -1,3 +1,4 @@
+import { AutocompleteUser } from '@/components/form';
 import { usePreviewFlags } from '@/features/flag/slice';
 import { useGetUserContextQuery, useSetUserContextMutation } from '@/features/user/api/getUserContext';
 import AddModeratorIcon from '@mui/icons-material/AddModerator';
@@ -18,7 +19,6 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import React, { useEffect } from 'react';
 import { FormContainer, useForm } from 'react-hook-form-mui';
-import AutocompleteUser from '../form/AutocompleteUser';
 import ResultDialog from './ResultDialog';
 
 
