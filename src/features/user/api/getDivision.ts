@@ -1,4 +1,4 @@
-import { m3api } from "@/m3api";
+import { m3api } from "../../../m3api";
 
 export async function getDivision(company: string, division: string) {
   try {

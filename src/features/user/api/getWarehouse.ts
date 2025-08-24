@@ -1,4 +1,4 @@
-import { m3api } from "@/m3api";
+import { m3api } from "../../../m3api";
 
 export type Warehouse = {
   id: string,

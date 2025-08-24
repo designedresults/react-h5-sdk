@@ -1,4 +1,4 @@
-import { m3api } from "@/m3api";
+import { m3api } from "../../../m3api";
 import { M3APIRequest } from "@designedresults/m3api-h5-sdk";
 
 export async function getUserData(userId: string) {

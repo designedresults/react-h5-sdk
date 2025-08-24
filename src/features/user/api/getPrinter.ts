@@ -1,4 +1,4 @@
-import { m3api } from "@/m3api";
+import { m3api } from "../../../m3api";
 import { UserOutputMedia } from "../slice";
 
 export async function getPrinter(userId: string, printerFile?: string) {

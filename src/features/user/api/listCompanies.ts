@@ -1,4 +1,4 @@
-import { m3api } from "@/m3api";
+import { m3api } from "../../../m3api";
 import { userApi } from "../api";
 export type ListCompaniesArgs = {
   userId: string;
