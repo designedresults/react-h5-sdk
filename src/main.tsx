@@ -1,9 +1,4 @@
-import { Fallback, PageNotFound, SizedBox } from '@/components';
-import CurrentCompanyDivision from '@/components/chips/CurrentCompanyDivision';
-import CurrentFacilityWarehouse from '@/components/chips/CurrentFacilityWarehouse';
-import CurrentPrinter from '@/components/chips/CurrentPrinter';
-import CurrentUser from '@/components/chips/CurrentUser';
-
+import { CurrentCompanyDivision, CurrentFacilityWarehouse, CurrentPrinter, CurrentUser, Fallback, PageNotFound, SizedBox } from '@/components';
 import { useDialog } from '@/components/dialogs';
 import { AppToolbar } from '@/components/layout';
 import Box from '@mui/material/Box';
