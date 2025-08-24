@@ -1,5 +1,5 @@
 
-import { ChangeCompanyDivisionArgs, useChangeCompanyDivisionMutation } from '@/features';
+import { ChangeCompanyDivisionArgs, useChangeCompanyDivisionMutation } from '../../features';
 import { useAppSelector } from '@/store';
 import EditIcon from '@mui/icons-material/edit';
 import Button from '@mui/material/Button';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useListCompaniesQuery } from '@/features/user/api/listCompanies';
+import { useListCompaniesQuery } from '../../features/user/api/listCompanies';
 import { useAppSelector } from '@/store';
 import { AutocompleteElement, AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
 

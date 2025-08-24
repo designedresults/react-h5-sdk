@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { useListWarehousesQuery } from '@/features/user/api/listWarehouses';
+import { useListWarehousesQuery } from '../../features/user/api/listWarehouses';
 import { AutocompleteElement, AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
 
 

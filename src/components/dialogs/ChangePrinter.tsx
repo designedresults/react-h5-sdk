@@ -1,5 +1,5 @@
-import { AutocompletePrinter } from '@/components/form';
-import { ChangePrinterArgs, useChangePrinterMutation } from '@/features/user/api/changePrinter';
+import { AutocompletePrinter } from '../../components/form';
+import { ChangePrinterArgs, useChangePrinterMutation } from '../../features/user/api/changePrinter';
 import { useAppSelector } from '@/store';
 import EditIcon from '@mui/icons-material/edit';
 import Button from '@mui/material/Button';

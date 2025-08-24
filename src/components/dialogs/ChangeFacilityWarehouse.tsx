@@ -1,4 +1,4 @@
-import { ChangeFacilityWarehouseArgs, useChangeFacilityWarehouseMutation } from '@/features/user/api/changeFacilityWarehouse';
+import { ChangeFacilityWarehouseArgs, useChangeFacilityWarehouseMutation } from '../../features/user/api/changeFacilityWarehouse';
 import { useAppDispatch, useAppSelector } from '@/store';
 import EditIcon from '@mui/icons-material/edit';
 import Button from '@mui/material/Button';
@@ -11,7 +11,7 @@ import React, { useEffect } from 'react';
 import { FormContainer, useForm } from 'react-hook-form-mui';
 
 import ResultDialog from './ResultDialog';
-import { AutocompleteFacility, AutocompleteWarehouse } from '@/components/form';
+import { AutocompleteFacility, AutocompleteWarehouse } from '../../components/form';
 
 type Props = {
   open: boolean;

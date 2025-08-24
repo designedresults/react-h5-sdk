@@ -1,6 +1,6 @@
-import { AutocompleteUser } from '@/components/form';
-import { usePreviewFlags } from '@/features/flag/slice';
-import { useGetUserContextQuery, useSetUserContextMutation } from '@/features/user/api/getUserContext';
+import { AutocompleteUser } from '../../components/form';
+import { usePreviewFlags } from '../../features/flag/slice';
+import { useGetUserContextQuery, useSetUserContextMutation } from '../../features/user/api/getUserContext';
 import AddModeratorIcon from '@mui/icons-material/AddModerator';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';

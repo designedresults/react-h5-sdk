@@ -1,4 +1,4 @@
-import { useSetUserContextMutation } from '@/features/user/api/getUserContext';
+import { useSetUserContextMutation } from '../../features/user/api/getUserContext';
 import { useAppSelector } from '@/store';
 import AddModeratorIcon from '@mui/icons-material/AddModerator';
 import PersonIcon from '@mui/icons-material/Person';
