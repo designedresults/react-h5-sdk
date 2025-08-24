@@ -1,4 +1,4 @@
-import { usePreviewFlags } from '@/features/flag/flagSlice';
+import { usePreviewFlags } from '@/features/flag/slice';
 import { useGetUserContextQuery, useSetUserContextMutation } from '@/features/user/api/getUserContext';
 import AddModeratorIcon from '@mui/icons-material/AddModerator';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';

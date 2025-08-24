@@ -1,9 +1,9 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { flagContextReducer } from './features/flag/flagSlice';
-import { userApi, userContextReducer } from './features/user';
+
 import { createLogger } from 'redux-logger'
+import { flagContextReducer, userApi, userContextReducer } from '.';
 
 const logger = createLogger({
   collapsed: true,

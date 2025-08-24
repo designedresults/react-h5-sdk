@@ -10,7 +10,7 @@ export type FlagContextState = {
   config: { [key: string]: string[] }
 }
 
-export const initialState: FlagContextState = {
+const initialState: FlagContextState = {
   flags: {},
   roles: [],
   config: {}

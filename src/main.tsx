@@ -26,7 +26,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 
-import { setFlagConfig, useFlag, useFlags } from './features/flag/flagSlice';
+import { setFlagConfig, useFlag, useFlags } from './features/flag/slice';
 import { store, useAppSelector } from './store';
 import theme from './theme';
 import { initUserContext } from './features/user/api/getUserContext';
