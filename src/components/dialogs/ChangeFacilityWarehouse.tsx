@@ -1,5 +1,5 @@
 import { ChangeFacilityWarehouseArgs, useChangeFacilityWarehouseMutation } from '../../features/user/api/changeFacilityWarehouse';
-import { useAppDispatch, useAppSelector } from '@/store';
+import { useAppDispatch, useAppSelector } from '../../store';
 import EditIcon from '@mui/icons-material/edit';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';

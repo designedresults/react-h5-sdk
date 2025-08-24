@@ -1,6 +1,6 @@
 
 import { ChangeCompanyDivisionArgs, useChangeCompanyDivisionMutation } from '../../features';
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '../../store';
 import EditIcon from '@mui/icons-material/edit';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack';
 import React, { useEffect } from 'react';
 import { FormContainer, useForm } from 'react-hook-form-mui';
 import ResultDialog  from './ResultDialog';
-import { AutocompleteCompany, AutocompleteDivision } from '@/components/form';
+import { AutocompleteCompany, AutocompleteDivision } from '../../components/form';
 
 
 type Props = {

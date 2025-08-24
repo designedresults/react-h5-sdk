@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '../../store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { setUserContextEndpoint } from './api/getUserContext';
 import { changeFacilityWarehouseEndpoint } from './api/changeFacilityWarehouse';

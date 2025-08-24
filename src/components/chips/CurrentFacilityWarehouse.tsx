@@ -2,7 +2,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import Chip, { ChipProps } from '@mui/material/Chip';
 import React, { useState } from 'react';
 
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '../../store';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import ChangeFacilityWarehouse from '../dialogs/ChangeFacilityWarehouse';

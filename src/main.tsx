@@ -1,6 +1,6 @@
-import { CurrentCompanyDivision, CurrentFacilityWarehouse, CurrentPrinter, CurrentUser, Fallback, PageNotFound, SizedBox } from '@/components';
-import { useDialog } from '@/components/dialogs';
-import { AppToolbar } from '@/components/layout';
+import { CurrentCompanyDivision, CurrentFacilityWarehouse, CurrentPrinter, CurrentUser, Fallback, PageNotFound, SizedBox } from '../../components';
+import { useDialog } from '../../components/dialogs';
+import { AppToolbar } from '../../components/layout';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
