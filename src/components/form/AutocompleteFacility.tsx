@@ -1,23 +1,24 @@
 import React from 'react';
 
-import { AutocompleteProps } from '@mui/material/Autocomplete';
-import { AutocompleteElement } from 'react-hook-form-mui';
 import { useListFacilitiesQuery } from '@/features/user/api/listFacilities';
+import { AutocompleteElement, AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
 
 export default function AutocompleteFacility(
-  props: Omit<AutocompleteProps<string, false, false, false>, 'options' | 'renderInput'>
+  props: Partial<Omit<AutocompleteElementProps<{ id: string, label: string }, false, false, false>, 'options' | 'loading'>>
 ) {
+  const { formState } = useFormContext();
   const { data, isLoading } = useListFacilitiesQuery();
 
   return (
     <AutocompleteElement
-      name="facility"
-      label="Facility"
-      required
+      {...props}
+      name={props.name || 'facility'}
+      label={props.label || 'Facility'}
       loading={isLoading}
       options={data ?? []}
+      required
       matchId
-      autocompleteProps={props}
+      autocompleteProps={{ disabled: formState.isSubmitting }}
     />
   );
 }

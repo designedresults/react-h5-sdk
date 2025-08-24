@@ -1,6 +1,11 @@
 import { useAppSelector } from '@/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { setUserContextEndpoint } from './api/getUserContext';
+import { changeFacilityWarehouseEndpoint } from './api/changeFacilityWarehouse';
+import { changeCompanyDivisionEndpoint } from './api/changeCompanyDivision';
+import { changePrinterEndpoint } from './api/changePrinter';
+
+
 
 export type UserContext = UserDefaults & {
   userId: string;
@@ -86,6 +91,58 @@ const userContextSlice = createSlice({
       state.roles = action.payload.roles
       state.impersonator = action.payload.impersonator
     })
+    .addMatcher(changeCompanyDivisionEndpoint.matchFulfilled, (state, action) => {
+      state.userId = action.payload.userId
+      state.userName = action.payload.userName
+      state.environment = action.payload.environment
+      state.tenantId = action.payload.tenantId
+      state.company = action.payload.company
+      state.companyName = action.payload.companyName
+      state.division = action.payload.division
+      state.divisionName = action.payload.divisionName
+      state.facility = action.payload.facility
+      state.facilityName = action.payload.facilityName
+      state.warehouse = action.payload.warehouse
+      state.warehouseName = action.payload.warehouseName
+      state.printer = action.payload.printer
+      state.roles = action.payload.roles
+      state.impersonator = action.payload.impersonator
+    })
+    .addMatcher(changeFacilityWarehouseEndpoint.matchFulfilled, (state, action) => {
+      state.userId = action.payload.userId
+      state.userName = action.payload.userName
+      state.environment = action.payload.environment
+      state.tenantId = action.payload.tenantId
+      state.company = action.payload.company
+      state.companyName = action.payload.companyName
+      state.division = action.payload.division
+      state.divisionName = action.payload.divisionName
+      state.facility = action.payload.facility
+      state.facilityName = action.payload.facilityName
+      state.warehouse = action.payload.warehouse
+      state.warehouseName = action.payload.warehouseName
+      state.printer = action.payload.printer
+      state.roles = action.payload.roles
+      state.impersonator = action.payload.impersonator
+    })
+    .addMatcher(changePrinterEndpoint.matchFulfilled, (state, action) => {
+      state.userId = action.payload.userId
+      state.userName = action.payload.userName
+      state.environment = action.payload.environment
+      state.tenantId = action.payload.tenantId
+      state.company = action.payload.company
+      state.companyName = action.payload.companyName
+      state.division = action.payload.division
+      state.divisionName = action.payload.divisionName
+      state.facility = action.payload.facility
+      state.facilityName = action.payload.facilityName
+      state.warehouse = action.payload.warehouse
+      state.warehouseName = action.payload.warehouseName
+      state.printer = action.payload.printer
+      state.roles = action.payload.roles
+      state.impersonator = action.payload.impersonator
+    })
+
   }
 });
 

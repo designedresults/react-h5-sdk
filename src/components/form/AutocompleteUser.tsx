@@ -22,11 +22,10 @@ export default function AutocompleteUser(
       loading={isLoading || isFetching}
       options={data ?? []}
       matchId
+      required
       autocompleteProps={{
         disabled: formState.isSubmitting,
-        
       }}
-
     />
   );
 }

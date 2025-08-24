@@ -1,8 +1,6 @@
 {
-  "sawmill": {
-    "*": ["SUP"],
-    "orders": {
-      "createOrder": ["SUP"]
-    }
-  }
+  "canImpersonate": ["MANSUPERVI"],
+  "showCompanyDivision": ["TESTIFS"],
+  "showFacilityWarehouse": ["TESTIFS"],
+  "showPrinter": ["TESTIFS"]
 }

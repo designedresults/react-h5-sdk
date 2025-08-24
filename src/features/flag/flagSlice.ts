@@ -1,6 +1,5 @@
 import { useAppSelector } from '@/store';
-import { createSlice, Middleware, PayloadAction } from '@reduxjs/toolkit';
-import { IUserContextState } from '../user';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { setUserContextEndpoint } from '../user/api/getUserContext';
 
 export type FlagContextState = {

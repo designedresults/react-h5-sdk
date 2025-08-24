@@ -1,5 +1,7 @@
 import { m3api } from "@/m3api";
 import { userApi } from "../api";
+import { getUserContext } from "./getUserContext";
+import { UserContext } from "../slice";
 
 export type ChangeFacilityWarehouseArgs = {
   userId: string,
@@ -24,7 +26,7 @@ async function changeFacilityWarehouse({ userId, company, division, facility, wa
 
 const extendedApi = userApi.injectEndpoints({
   endpoints: (build) => ({
-    changeFacilityWarehouse: build.mutation<void, ChangeFacilityWarehouseArgs>({
+    changeFacilityWarehouse: build.mutation<UserContext, ChangeFacilityWarehouseArgs>({
       queryFn: async (args) => {
         try {
           if (!args.userId) {
@@ -37,22 +39,23 @@ const extendedApi = userApi.injectEndpoints({
             throw new Error("Division is required.")
           }
           if (!args.facility) {
-            throw new Error("facility is required.")
+            throw new Error("Facility is required.")
           }
-          if (!args.division) {
-            throw new Error("division is required.")
+          if (!args.warehouse) {
+            throw new Error("Warehouse is required.")
           }
 
           await changeFacilityWarehouse(args)
+          const userContext = await getUserContext({userId: args.userId})
+          return { data: userContext };
 
         } catch (error) {
           return { error }
         }
-
-        return { data: undefined };
       },
     }),
   }),
 });
 
 export const { useChangeFacilityWarehouseMutation } = extendedApi;
+export const changeFacilityWarehouseEndpoint = extendedApi.endpoints.changeFacilityWarehouse

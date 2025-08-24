@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 
-import { AutocompleteProps } from '@mui/material/Autocomplete';
-import { AutocompleteElement, useFormContext } from 'react-hook-form-mui';
 import { useListWarehousesQuery } from '@/features/user/api/listWarehouses';
-import { Warehouse } from '@/features/user/api/getWarehouse';
+import { AutocompleteElement, AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
 
 
 export default function AutocompleteWarehouse(
-  props: Omit<AutocompleteProps<string, false, false, false>, 'options' | 'renderInput'>
+  props: Partial<Omit<AutocompleteElementProps<{ id: string, label: string }, false, false, false>, 'options' | 'loading'>>
 ) {
-  const { watch, setValue } = useFormContext();
+  const { formState, watch, setValue } = useFormContext();
   const facility = watch('facility');
-  const { data, isLoading } = useListWarehousesQuery({facility});
+  const { data, isLoading } = useListWarehousesQuery({ facility });
 
   useEffect(() => {
     if (data && facility) {
@@ -19,22 +17,22 @@ export default function AutocompleteWarehouse(
       if (mainWarehouse) {
         setValue('warehouse', mainWarehouse)
       }
-
     }
   }, [facility, data])
 
 
   return (
     <AutocompleteElement
-      name="warehouse"
-      label="Warehouse"
+      {...props}
+      name={props.name || 'warehouse'}
+      label={props.label || 'Warehouse'}
       options={data as any[] ?? []}
-      autocompleteProps={{
-        disabled: !facility,
-        ...props,
-      }}
       loading={isLoading}
       required
+      matchId
+      autocompleteProps={{
+        disabled: !facility || formState.isSubmitting,
+      }}
     />
   );
 }

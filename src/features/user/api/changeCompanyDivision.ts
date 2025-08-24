@@ -1,6 +1,7 @@
 import { m3api } from "@/m3api";
 import { userApi } from "../api";
 import { getUserContext } from "./getUserContext";
+import { UserContext } from "../slice";
 
 export type ChangeCompanyDivisionArgs = {
   userId: string,
@@ -21,7 +22,7 @@ async function changeCompanyDivision({ userId, company, division }: ChangeCompan
 
 const extendedApi = userApi.injectEndpoints({
   endpoints: (build) => ({
-    changeCompanyDivision: build.mutation<void, ChangeCompanyDivisionArgs>({
+    changeCompanyDivision: build.mutation<UserContext, ChangeCompanyDivisionArgs>({
       queryFn: async (args) => {
         try {
           if (!args.userId) {
@@ -33,8 +34,10 @@ const extendedApi = userApi.injectEndpoints({
           if (!args.division) {
             throw new Error("Division is required.")
           }
-          await new Promise(r => setTimeout(r, 1500))
+
           await changeCompanyDivision(args)
+          const userContext = await getUserContext({ userId: args.userId })
+          return { data: userContext }
 
         } catch (error) {
           return { error }
@@ -47,3 +50,4 @@ const extendedApi = userApi.injectEndpoints({
 });
 
 export const { useChangeCompanyDivisionMutation } = extendedApi;
+export const changeCompanyDivisionEndpoint = extendedApi.endpoints.changeCompanyDivision

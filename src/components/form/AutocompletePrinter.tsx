@@ -1,24 +1,27 @@
 import React from 'react';
 
-import { AutocompleteProps } from '@mui/material/Autocomplete';
-import { AutocompleteElement } from 'react-hook-form-mui';
 import { useListPrintersQuery } from '@/features/user/api/listPrinters';
+import { AutocompleteElement, AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
 
 
 export default function AutocompletePrinter(
-  props: Omit<AutocompleteProps<string, false, false, false>, 'options' | 'renderInput'>
+  props: Partial<Omit<AutocompleteElementProps<{ id: string, label: string }, false, false, false>, 'options' | 'loading'>>
 ) {
+  const { formState } = useFormContext();
   const { data, isLoading } = useListPrintersQuery();
 
   return (
     <AutocompleteElement
-      name="device"
-      label="Printer"
-      required
-      loading={isLoading}
+      {...props}
+      name={props.name || 'device'}
+      label={props.label || 'Printer'}
       options={data ?? []}
+      loading={isLoading}
+      required
       matchId
-      autocompleteProps={props}
+      autocompleteProps={{
+        disabled: formState.isSubmitting
+      }}
     />
   );
 }

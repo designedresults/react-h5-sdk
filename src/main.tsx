@@ -1,9 +1,9 @@
-import { Fallback, PageNotFound, useSelectedRows } from '@/components';
+import { Fallback, PageNotFound, SizedBox } from '@/components';
 import CurrentCompanyDivision from '@/components/chips/CurrentCompanyDivision';
 import CurrentFacilityWarehouse from '@/components/chips/CurrentFacilityWarehouse';
 import CurrentPrinter from '@/components/chips/CurrentPrinter';
 import CurrentUser from '@/components/chips/CurrentUser';
-import { Toolbar } from '@/components/datagrid/Toolbar';
+
 import { useDialog } from '@/components/dialogs/useDialog';
 import { AppToolbar } from '@/components/layout/AppToolbar';
 import Box from '@mui/material/Box';
@@ -30,23 +30,13 @@ import { setFlagConfig, useFlag, useFlags } from './features/flag/flagSlice';
 import { store, useAppSelector } from './store';
 import theme from './theme';
 import { initUserContext } from './features/user/api/getUserContext';
-
-
+import flagConfig from './features.json'
+import { FormContainer, TextFieldElement } from 'react-hook-form-mui';
 
 LicenseInfo.setLicenseKey(import.meta.env.VITE_MUI_PRO_KEY);
+
 store.dispatch(initUserContext())
-
-const flagConfig = {
-  "showCompanyDivision": ['TESTIFS'],
-  "showFacilityWarehouse": ['TESTIFS'],
-  "showPrinter": ['TESTIFS'],
-  "somethingElse": [],
-  "canImpersonate": ['MANSUPERVI'],
-  "glulamCloseOrder": ["RMFGSUPINT"]
-}
 store.dispatch(setFlagConfig(flagConfig));
-
-
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -61,7 +51,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 );
 
-function App() {  
+function App() {
 
   return (
     <BrowserRouter>
@@ -76,10 +66,8 @@ function App() {
 }
 
 function Layout() {
-  const [f1, f2, f3] = useFlags(["showCompanyDivision", "showFacilityWarehouse", "showPrinter"])
+  const [conoDivi, faciWhse, prt] = useFlags(["showCompanyDivision", "showFacilityWarehouse", "showPrinter"])
   const canImpersonate = useFlag("canImpersonate")
-
-
 
   return (
     <>
@@ -91,13 +79,13 @@ function Layout() {
           <Box flexGrow={1} />
           <Stack direction="row" spacing={1}>
             <CurrentUser chipProps={{ size: 'small', variant: 'outlined' }} showRoles canImpersonate={canImpersonate} />
-            {f1 &&
+            {conoDivi &&
               <CurrentCompanyDivision chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
             }
-            {f2 &&
+            {faciWhse &&
               <CurrentFacilityWarehouse chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
             }
-            {f3 &&
+            {prt &&
               <CurrentPrinter chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
             }
           </Stack>
@@ -116,7 +104,6 @@ function Page() {
   return (
     <>
       <Dialog />
-      <pre>{JSON.stringify({state, flag}, null, 2)}</pre>
       <Container maxWidth="lg">
         <Grid container component={Paper} marginY={1}>
           <Grid size={6}>
@@ -125,10 +112,10 @@ function Page() {
           </Grid>
           <Grid size={6}>
             <Typography variant="subtitle2">Globally delcared vars</Typography>
-            <pre>{JSON.stringify({  __APP_NAME__, __APP_DESCRIPTION__, __APP_VERSION__, __BUILD_DATE__ }, null, 2)}</pre>
+            <pre>{JSON.stringify({ __APP_NAME__, __APP_DESCRIPTION__, __APP_VERSION__, __BUILD_DATE__ }, null, 2)}</pre>
           </Grid>
         </Grid>
-        {/* <Box marginY={2}>
+        <Box marginY={2}>
           <FormContainer
             onSuccess={async data => {
               if (Number(data.field1) > 100) {
@@ -166,7 +153,7 @@ function Page() {
             color="success"
             onClick={async () => {
               console.log(
-                await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'success' })
+                await show({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'success' })
               );
             }}
           >
@@ -176,7 +163,7 @@ function Page() {
             color="warning"
             onClick={async () => {
               console.log(
-                await confirm({
+                await show({
                   title: 'Confirm Dialog Title',
                   message: 'Confirm dialog message',
                   severity: 'warning',
@@ -190,16 +177,14 @@ function Page() {
             color="error"
             onClick={async () => {
               console.log(
-                await confirm({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'error' })
+                await show({ title: 'Confirm Dialog Title', message: 'Confirm dialog message', severity: 'error' })
               );
             }}
           >
             Show Error Dialog
           </Button>
         </Box>
-        <Box marginY={1}>
-          <SampleDataGrid />
-        </Box>
+
         <Paper>
           <SizedBox padding={2}>
             <Typography variant="subtitle2">Redux Store State</Typography>
@@ -213,41 +198,8 @@ function Page() {
               {JSON.stringify(state, null, 2)}
             </pre>
           </SizedBox>
-        </Paper> */}
+        </Paper>
       </Container>
     </>
-  );
-}
-
-function SampleDataGrid() {
-  function CustomDataGridToolbar() {
-    const rows = useSelectedRows();
-    return (
-      <Toolbar
-        title="Custom Toolbar Title"
-        titleProps={{ variant: 'body1' }}
-        refresh={() => { }}
-        refreshButtonProps={{ size: 'small' }}
-      >
-        <ButtonGroup size="small">
-          <Button disabled={rows.length === 0}>Button 1</Button>
-          <Button>Button 2</Button>
-        </ButtonGroup>
-      </Toolbar>
-    );
-  }
-
-  return (
-    <DataGridPro
-      columns={[{ field: 'A' }, { field: 'B' }]}
-      rows={[
-        { id: 0, A: '111', B: '222' },
-        { id: 1, A: '333', B: '444' },
-      ]}
-      hideFooter={true}
-      slots={{
-        toolbar: CustomDataGridToolbar,
-      }}
-    />
   );
 }

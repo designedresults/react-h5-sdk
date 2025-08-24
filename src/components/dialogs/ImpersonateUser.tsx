@@ -44,19 +44,13 @@ export default function ImpersonateUser({ open, handleClose, onChange }: Props) 
 
   const selectedUserId = watch('userId')
 
-
   useEffect(() => {
-    reset()
     if (onChange) {
       onChange()
     }
-    handleDialogClose()
-  }, [formState.isSubmitSuccessful])
-
-  const handleDialogClose = () => {
-    result.reset()
+    reset()
     handleClose()
-  }
+  }, [formState.isSubmitSuccessful])
 
 
   return (
@@ -69,7 +63,7 @@ export default function ImpersonateUser({ open, handleClose, onChange }: Props) 
           <DialogTitle>Impersonate User</DialogTitle>
           <DialogContent>
             <Stack direction="column" spacing={2} margin={2}>
-              <AutocompleteUser required />
+              <AutocompleteUser />
               {selectedUserId &&
                 <Box p={1} height={300} alignContent={"center"} >
                   <UserDetails userId={selectedUserId} />
@@ -78,7 +72,7 @@ export default function ImpersonateUser({ open, handleClose, onChange }: Props) 
             </Stack>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleDialogClose} disabled={formState.isSubmitting}>Cancel</Button>
+            <Button onClick={handleClose} disabled={formState.isSubmitting}>Cancel</Button>
             <Button
               type="submit"
               variant="contained"
@@ -91,11 +85,9 @@ export default function ImpersonateUser({ open, handleClose, onChange }: Props) 
         </FormContainer>
       </Dialog>
 
-
-      {(result.isError || result.isSuccess) &&
+      {(result.isError) &&
         <ResultDialog result={result} title="Impersonate User" errorMessage='Failed to impersonate user.' />
       }
-
 
     </>
   );
@@ -105,7 +97,7 @@ type UserDetailsProps = {
   userId: string
 }
 export function UserDetails({ userId }: UserDetailsProps) {
-  const { data, isLoading, isFetching, error } = useGetUserContextQuery({userId})
+  const { data, isLoading, isFetching, error } = useGetUserContextQuery({ userId })
   const flags = usePreviewFlags(data?.roles)
 
   if (error) {

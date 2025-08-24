@@ -1,27 +1,29 @@
 import React from 'react';
 
-import { IUserContextState } from '@/features/user';
 import { useListCompaniesQuery } from '@/features/user/api/listCompanies';
-import { AutocompleteProps } from '@mui/material/Autocomplete';
-import { AutocompleteElement } from 'react-hook-form-mui';
 import { useAppSelector } from '@/store';
+import { AutocompleteElement, AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
 
 
 export default function AutocompleteCompany(
-  props: Omit<AutocompleteProps<string, false, false, false>, 'options' | 'renderInput'>
+  props: Partial<Omit<AutocompleteElementProps<{ id: string, label: string }, false, false, false>, 'options' | 'loading'>>
 ) {
   const { userId } = useAppSelector(state => state.userContext)
   const { data, isLoading } = useListCompaniesQuery({ userId });
+  const { formState } = useFormContext();
 
   return (
     <AutocompleteElement
-      name="company"
-      label="Company"
-      required
-      loading={isLoading}
+      {...props}
+      name={props.name || 'company'}
+      label={props.label || 'Company'}
       options={data ?? []}
+      loading={isLoading}
       matchId
-      autocompleteProps={props}
+      required
+      autocompleteProps={{
+        disabled: formState.isSubmitting
+      }}
     />
   );
 }

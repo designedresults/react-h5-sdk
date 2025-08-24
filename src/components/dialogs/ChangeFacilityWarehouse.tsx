@@ -12,6 +12,7 @@ import React, { useEffect } from 'react';
 import { FormContainer, useForm } from 'react-hook-form-mui';
 import AutocompleteFacility from '../form/AutocompleteFacility';
 import AutocompleteWarehouse from '../form/AutocompleteWarehouse';
+import ResultDialog from './ResultDialog';
 
 type Props = {
   open: boolean;
@@ -32,45 +33,45 @@ export default function ChangeFacilityWarehouse({ open, handleClose, onChange }:
     }
   })
   const { reset, formState } = formContext
-  const [submit, { isSuccess, error }] = useChangeFacilityWarehouseMutation();
+  const [submit, result] = useChangeFacilityWarehouseMutation();
 
   useEffect(() => {
-    if (isSuccess) {
+    if (formState.isSubmitSuccessful) {
       if (onChange) {
         onChange();
       }
       reset()
       handleClose();
     }
-  }, [isSuccess])
-
-
+  }, [formState.isSubmitSuccessful])
 
   return (
-    <Dialog open={open} fullWidth maxWidth={'sm'}>
-      <FormContainer
-        formContext={formContext}
-        onSuccess={submit}
-      >
-        <DialogTitle>Update Facility and Warehouse</DialogTitle>
-        <DialogContent>
-          <Stack direction="column" spacing={2} margin={2}>
-            <AutocompleteFacility />
-            <AutocompleteWarehouse />
-          </Stack>
-          {error !== undefined &&
-            <Typography color="error" sx={{ textAlign: 'right' }}>{JSON.stringify(error, null, 2)}</Typography>
-          }
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} disabled={formState.isSubmitting}>
-            Cancel
-          </Button>
-          <Button type="submit" variant="contained" startIcon={<EditIcon />} loading={formState.isSubmitting}>
-            Update
-          </Button>
-        </DialogActions>
-      </FormContainer>
-    </Dialog >
+    <>
+      <Dialog open={open} fullWidth maxWidth={'sm'}>
+        <FormContainer
+          formContext={formContext}
+          onSuccess={async (data) => await submit(data)}
+        >
+          <DialogTitle>Update Facility and Warehouse</DialogTitle>
+          <DialogContent>
+            <Stack direction="column" spacing={2} margin={2}>
+              <AutocompleteFacility />
+              <AutocompleteWarehouse />
+            </Stack>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} disabled={formState.isSubmitting}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="contained" startIcon={<EditIcon />} loading={formState.isSubmitting}>
+              Update
+            </Button>
+          </DialogActions>
+        </FormContainer>
+      </Dialog >
+      {(result.isError) &&
+        <ResultDialog result={result} title="Update facility and warehouse" />
+      }
+    </>
   );
 }

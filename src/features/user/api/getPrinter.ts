@@ -1,5 +1,5 @@
 import { m3api } from "@/m3api";
-import { IUserOutputMedia } from "../slice";
+import { UserOutputMedia } from "../slice";
 
 export async function getPrinter(userId: string, printerFile?: string) {
   const resp = await m3api.execute({
@@ -14,7 +14,7 @@ export async function getPrinter(userId: string, printerFile?: string) {
   });
   const outputMedias =
     resp?.records?.map(item => {
-      const outputMedia: IUserOutputMedia = {
+      const outputMedia: UserOutputMedia = {
         division: item.DIVI,
         media: item.MEDC,
         device: item.DEV1,

@@ -1,5 +1,7 @@
 import { m3api } from "@/m3api";
 import { userApi } from "../api";
+import { getUserContext } from "./getUserContext";
+import { UserContext } from "../slice";
 
 export type ChangePrinterArgs = {
   userId: string,
@@ -24,7 +26,7 @@ async function changePrinter({ userId, division, printerFile, device, sequence }
 
 const extendedApi = userApi.injectEndpoints({
   endpoints: (build) => ({
-    ChangePrinter: build.mutation<void, ChangePrinterArgs>({
+    changePrinter: build.mutation<UserContext, ChangePrinterArgs>({
       queryFn: async (args) => {
         try {
           if (!args.userId) {
@@ -33,7 +35,7 @@ const extendedApi = userApi.injectEndpoints({
           if (!args.division) {
             throw new Error("Division is required.")
           }
-          if (!args.printerFile) {
+          if (args.printerFile === undefined) {
             throw new Error("PrinterFile is required.")
           }
           if (!args.device) {
@@ -44,15 +46,15 @@ const extendedApi = userApi.injectEndpoints({
           }
 
           await changePrinter(args)
-
+          const userContext = await getUserContext({ userId: args.userId })
+          return { data: userContext }
         } catch (error) {
           return { error }
         }
-
-        return { data: undefined };
       },
     }),
   }),
 });
 
 export const { useChangePrinterMutation } = extendedApi;
+export const changePrinterEndpoint = extendedApi.endpoints.changePrinter
