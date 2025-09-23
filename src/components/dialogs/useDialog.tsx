@@ -19,9 +19,10 @@ type Props = {
   message?: string;
   severity?: AlertColor;
   confirm?: boolean;
+  autoFocus?: boolean;
 };
 
-export function useDialog(defaultProps: Props) {
+export default function useDialog(defaultProps: Props) {
   const [promise, setPromise] = useState<any>(null);
   const [props, setProps] = useState<any>(null);
 
@@ -31,6 +32,7 @@ export function useDialog(defaultProps: Props) {
       message: props?.message ?? defaultProps?.message,
       severity: props?.severity ?? defaultProps?.severity,
       confirm: props?.confirm ?? defaultProps?.confirm,
+      autoFocus: props?.autoFocus ?? defaultProps?.autoFocus
     });
 
     return new Promise<boolean>(resolve => {
@@ -56,10 +58,13 @@ export function useDialog(defaultProps: Props) {
       const message = props?.message ?? '';
       const severity = props?.severity ?? 'info';
       const confirm = props?.confirm === undefined && severity === 'warning' ? true : props?.confirm == true;
+      const autoFocus = props?.autoFocus ?? true;
       const okButtonRef = useRef<HTMLButtonElement>(null);
       useLayoutEffect(() => {
-        okButtonRef.current?.focus();
-      }, [okButtonRef.current]);
+        if (autoFocus) {
+          okButtonRef.current?.focus();
+        }
+      }, [okButtonRef.current, autoFocus]);
       if (props === null) {
         return
       }

@@ -24,7 +24,7 @@ import CurrentFacilityWarehouse from './components/chips/CurrentFacilityWarehous
 import CurrentPrinter from './components/chips/CurrentPrinter';
 import CurrentUser from './components/chips/CurrentUser';
 import { Toolbar } from './components/datagrid/Toolbar';
-import { useDialog } from './components/dialogs/useDialog';
+
 import { AppToolbar } from './components/layout/AppToolbar';
 import { SizedBox } from './components/layout/SizedBox';
 import { store, useAppSelector } from './features/store';
@@ -32,6 +32,7 @@ import { loadUserContext } from './features/userContextSlice';
 import theme from './theme';
 import { LicenseInfo } from '@mui/x-license';
 import { DataGridPro } from '@mui/x-data-grid-pro';
+import useDialog from './components/dialogs/useDialog';
 
 LicenseInfo.setLicenseKey(import.meta.env.VITE_MUI_PRO_KEY);
 
@@ -88,7 +89,7 @@ function App() {
 
 function Page() {
   const state = useAppSelector(state => state);
-  const { Dialog, show } = useDialog({ title: 'Default title', severity: 'success' });
+  const { Dialog, show } = useDialog({ title: 'Default title', severity: 'success'});
   return (
     <>
       <Dialog />
@@ -107,7 +108,7 @@ function Page() {
           <FormContainer
             onSuccess={async data => {
               if (Number(data.field1) > 100) {
-                const ok = await show({ message: 'Value is large', severity: 'warning' });
+                const ok = await show({ message: 'Value is large', severity: 'warning'});
                 if (ok) {
                   await show({ message: 'Submitted with large value' });
                 }
@@ -132,7 +133,7 @@ function Page() {
           <Button
             color="error"
             onClick={() => {
-              show({ message: 'An error occured', severity: 'error' });
+              show({ message: 'An error occured', severity: 'error', autoFocus: false });
             }}
           >
             Show Error Dialog
