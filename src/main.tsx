@@ -28,15 +28,17 @@ import { Toolbar } from './components/datagrid/Toolbar';
 import { AppToolbar } from './components/layout/AppToolbar';
 import { SizedBox } from './components/layout/SizedBox';
 import { store, useAppSelector } from './features/store';
-import { loadUserContext } from './features/userContextSlice';
+import { loadUserContext, setSecurityConfig } from './features/userContextSlice';
 import theme from './theme';
 import { LicenseInfo } from '@mui/x-license';
 import { DataGridPro } from '@mui/x-data-grid-pro';
 import useDialog from './components/dialogs/useDialog';
+import securityConfig from '../securityConfig'
 
 LicenseInfo.setLicenseKey(import.meta.env.VITE_MUI_PRO_KEY);
 
 const m3api = new M3API();
+setSecurityConfig(securityConfig)
 store.dispatch(loadUserContext(m3api, null));
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

@@ -1,10 +1,8 @@
-import {
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from './store';
 import { M3API } from '@designedresults/m3api-h5-sdk';
 import { getUserContext } from '../services/user';
+import { load, SecurityConfig } from './securityConfig';
 
 export interface IUserContextState extends IUserDefaults {
   userId: string;
@@ -14,6 +12,7 @@ export interface IUserContextState extends IUserDefaults {
   printer?: IUserOutputMedia;
   roles: string[];
   impersonator: string | null;
+  security?: IAppSecurity | null;
 }
 
 export interface IUserOutputMedia {
@@ -36,6 +35,12 @@ export interface IUserDefaults {
   warehouseName?: string
 }
 
+export interface IAppSecurity {
+  defaultPath: string,
+  allowedPaths: string[],
+  features: string[]
+}
+
 export const initialState: IUserContextState = {
   userId: '',
   userName: '',
@@ -49,6 +54,8 @@ export const initialState: IUserContextState = {
   roles: [],
   impersonator: null
 };
+
+let securityConfig: SecurityConfig | null = null;
 
 
 const userContextSlice = createSlice({
@@ -74,6 +81,11 @@ const userContextSlice = createSlice({
       state.printer = action.payload.printer;
       state.roles = action.payload.roles;
       state.impersonator = action.payload.impersonator
+
+      if (securityConfig && action.payload.roles?.length) {
+        state.security = load(securityConfig, action.payload.roles)
+      }
+      
     },
     setDefaults: (
       state: IUserContextState,
@@ -97,6 +109,9 @@ const userContextSlice = createSlice({
 
 export const userContextReducer = userContextSlice.reducer
 
+export const setSecurityConfig = (config: SecurityConfig) => {
+  securityConfig = config
+}
 
 export const loadUserContext = (m3api: M3API, userId: string | null): AppThunk => {
   return async (dispatch) => {
@@ -104,3 +119,4 @@ export const loadUserContext = (m3api: M3API, userId: string | null): AppThunk =
     dispatch({ type: 'userContext/setUserContext', payload: userContext });
   }
 }
+
