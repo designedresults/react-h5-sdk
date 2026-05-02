@@ -1,7 +1,4 @@
-import React from 'react';
-
-
-import { AutocompleteElement, AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
+import { AutocompleteElement, type AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
 import { useListUsersQuery } from '../../features/user/api/listUsers';
 
 export default function AutocompleteUser(

@@ -1,6 +1,6 @@
 import BusinessIcon from '@mui/icons-material/Business';
-import Chip, { ChipProps } from '@mui/material/Chip';
-import React, { useState } from 'react';
+import Chip, { type ChipProps } from '@mui/material/Chip';
+import { useState } from 'react';
 
 import { useAppSelector } from '../../store';
 import Box from '@mui/material/Box';

@@ -1,5 +1,5 @@
 import { m3api } from "../../../m3api";
-import { UserOutputMedia } from "../slice";
+import { type UserOutputMedia } from "../slice";
 
 export async function getPrinter(userId: string, printerFile?: string) {
   const resp = await m3api.execute({

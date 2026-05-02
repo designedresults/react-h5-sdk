@@ -1,5 +1,5 @@
 import { userApi } from "../api";
-import { UserContext } from "../slice";
+import { type UserContext } from "../slice";
 import { getCompany } from "./getCompany";
 import { getCurrentUser } from "./getCurrentUser";
 import { getDivision } from "./getDivision";

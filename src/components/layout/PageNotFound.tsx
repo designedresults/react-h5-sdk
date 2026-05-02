@@ -2,7 +2,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type Props = {
@@ -23,7 +22,7 @@ export default function PageNotFound({ title, message }: Props) {
       <Typography variant="body1" gutterBottom>
         {message ?? "Unable to display this page."}
       </Typography>
-      <Stack direction="column" width="100%" spacing={2} alignItems={"end"}>
+      <Stack direction="column" spacing={2} sx={{ width: '100%', alignItems: "end" }}>
         <Button
           variant="contained"
           startIcon={<ArrowBackIcon />}

@@ -1,15 +1,15 @@
-import { AutocompletePrinter } from '../../components/form';
-import { ChangePrinterArgs, useChangePrinterMutation } from '../../features/user/api/changePrinter';
-import { useAppSelector } from '../../store';
-import EditIcon from '@mui/icons-material/edit';
+import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormContainer, useForm } from 'react-hook-form-mui';
+import { AutocompletePrinter } from '../../components/form';
+import { type ChangePrinterArgs, useChangePrinterMutation } from '../../features/user/api/changePrinter';
+import { useAppSelector } from '../../store';
 import ResultDialog from './ResultDialog';
 
 type Props = {
@@ -51,7 +51,7 @@ export default function ChangeFacilityWarehouse({ open, handleClose, onChange }:
         >
           <DialogTitle>Update Printer</DialogTitle>
           <DialogContent>
-            <Stack direction="column" spacing={2} margin={2}>
+            <Stack direction="column" spacing={2} sx={{ margin: 2 }}>
               <AutocompletePrinter />
             </Stack>
           </DialogContent>

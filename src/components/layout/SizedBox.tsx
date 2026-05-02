@@ -23,7 +23,7 @@ const SizedBox: React.FC<SizedBoxProps> = ({ minHeight = 300, margin = 20, paddi
   }, [ref, size.height, margin, minHeight]);
 
   return (
-    <Box sx={{ height }} ref={ref} padding={padding}>
+    <Box sx={{ height, padding }} ref={ref}>
       {children}
     </Box>
   );

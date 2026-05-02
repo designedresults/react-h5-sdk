@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { AutocompleteElement, AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
+import { AutocompleteElement, type AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
 
 import { useListDivisionsQuery } from '../../features/user/api/listDivisions';
 import { useAppSelector } from '../../store';

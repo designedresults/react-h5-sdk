@@ -1,6 +1,6 @@
 import { m3api } from "../../../m3api";
 import { userApi } from "../api";
-import { Warehouse } from "./getWarehouse";
+import { type Warehouse } from "./getWarehouse";
 
 export type ListWarehousesArgs = {
   facility: string

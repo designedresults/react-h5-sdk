@@ -4,35 +4,34 @@ import FormControl from '@mui/material/FormControl';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import React from 'react';
 import { useState } from 'react';
-import { FallbackProps } from 'react-error-boundary';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { type FallbackProps } from 'react-error-boundary';
 
+
+import { M3APIError, type M3APIErrorCause } from '@designedresults/m3api-h5-sdk';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Table from '@mui/material/Table';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import Box from '@mui/material/Box';
-import { M3APIError, M3APIErrorCause } from '@designedresults/m3api-h5-sdk';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 export default function Fallback({ error, resetErrorBoundary }: FallbackProps) {
-  
   const [open, setOpen] = useState(false);
 
   const isM3APIError = error instanceof M3APIError;
+  const errorObj: any = error as any
 
   let cause: M3APIErrorCause | undefined = undefined;
   if (isM3APIError) {
-    cause = error.cause as M3APIErrorCause;
+    cause = errorObj.cause as M3APIErrorCause;
   }
 
   return (
     <Container maxWidth="md">
-      <Box padding={4}>
+      <Box sx={{ padding: 4 }}>
         {isM3APIError && (
           <>
             <Typography variant="h1" color="error">
@@ -48,14 +47,14 @@ export default function Fallback({ error, resetErrorBoundary }: FallbackProps) {
         {!isM3APIError && (
           <>
             <Typography variant="h1" color="error">
-              {error.name}
+              {errorObj.name}
             </Typography>
             <Typography variant="body1" color="error" gutterBottom>
-              {error.message}
+              {errorObj.message}
             </Typography>
           </>
         )}
-        <Stack direction="row" spacing={2} justifyContent={'end'}>
+        <Stack direction="row" spacing={2} sx={{ justifyContent: 'end' }}>
           <Button
             color="error"
             size="small"
@@ -76,8 +75,8 @@ export default function Fallback({ error, resetErrorBoundary }: FallbackProps) {
             Back
           </Button>
         </Stack>
-        <Stack direction="column" spacing={2} marginTop={4}>
-          {error.cause && (
+        <Stack direction="column" spacing={2} sx={{ marginTop: 4 }}>
+          {errorObj.cause && (
             <FormControl fullWidth>
               <TextField
                 color="error"
@@ -85,19 +84,19 @@ export default function Fallback({ error, resetErrorBoundary }: FallbackProps) {
                 multiline
                 maxRows={10}
                 disabled
-                defaultValue={JSON.stringify(error.cause, null, 2)}
+                defaultValue={JSON.stringify(errorObj.cause, null, 2)}
               />
             </FormControl>
           )}
 
           {open && (
             <>
-              {error.program && error.transaction && (
+              {errorObj.program && errorObj.transaction && (
                 <Typography variant="subtitle1">
-                  {error.program}/{error.transaction}
+                  {errorObj.program}/{errorObj.transaction}
                 </Typography>
               )}
-              {error.record && (
+              {errorObj.record && (
                 <TableContainer>
                   <Table size="small">
                     <TableHead>
@@ -107,10 +106,10 @@ export default function Fallback({ error, resetErrorBoundary }: FallbackProps) {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {Object.keys(error.record).map(key => (
+                      {Object.keys(errorObj.record).map(key => (
                         <TableRow key={key}>
                           <TableCell>{key}</TableCell>
-                          <TableCell>{error.record[key]}</TableCell>
+                          <TableCell>{errorObj.record[key]}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -125,7 +124,7 @@ export default function Fallback({ error, resetErrorBoundary }: FallbackProps) {
                   multiline
                   maxRows={10}
                   disabled
-                  defaultValue={error.stack}
+                  defaultValue={errorObj.stack}
                 />
               </FormControl>
             </>

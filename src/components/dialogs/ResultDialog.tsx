@@ -1,13 +1,12 @@
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-
-import Dialog, { DialogProps } from "@mui/material/Dialog";
+import Dialog, { type DialogProps } from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { TypedUseMutationResult } from "@reduxjs/toolkit/dist/query/react";
+import type { TypedUseMutationResult } from "@reduxjs/toolkit/query/react";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import { useState } from "react";
 
 type Props = {
   result: TypedUseMutationResult<any, any, any>;

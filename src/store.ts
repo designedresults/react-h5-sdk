@@ -1,23 +1,16 @@
-import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import { type Action, configureStore, type ThunkAction } from '@reduxjs/toolkit';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { userApi, userContextReducer } from './features/user';
 
-import { createLogger } from 'redux-logger'
-import { flagContextReducer, userApi, userContextReducer } from '.';
-
-const logger = createLogger({
-  collapsed: true,
-  logErrors: false
-});
 
 
 export const store = configureStore({
   reducer: {
     userContext: userContextReducer,
-    flagContext: flagContextReducer,
     [userApi.reducerPath]: userApi.reducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(logger).concat(userApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(userApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

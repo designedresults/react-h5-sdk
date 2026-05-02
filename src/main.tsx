@@ -1,6 +1,3 @@
-import { CurrentCompanyDivision, CurrentFacilityWarehouse, CurrentPrinter, CurrentUser, Fallback, PageNotFound, SizedBox } from './components';
-import { useDialog } from './components/dialogs';
-import { AppToolbar } from './components/layout';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -16,20 +13,20 @@ import { LicenseInfo } from '@mui/x-license';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
+import { FormContainer, TextFieldElement } from 'react-hook-form-mui';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
-
-import { FormContainer, TextFieldElement } from 'react-hook-form-mui';
-import flagConfig from './features.json';
-import { setFlagConfig, useFlag, useFlags } from './features/flag/slice';
+import { CurrentCompanyDivision, CurrentFacilityWarehouse, CurrentPrinter, CurrentUser, Fallback, PageNotFound, SizedBox } from './components';
+import { useDialog } from './components/dialogs';
+import { AppToolbar } from './components/layout';
 import { initUserContext } from './features/user/api/getUserContext';
-import { store, useAppSelector } from './store';
 import theme from './theme';
+import { store, useAppSelector } from './store';
 
-LicenseInfo.setLicenseKey(import.meta.env.VITE_MUI_PRO_KEY);
+LicenseInfo.setLicenseKey(import.meta.env.VITE_MUI_KEY);
 
 store.dispatch(initUserContext())
-store.dispatch(setFlagConfig(flagConfig));
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -59,8 +56,7 @@ function App() {
 }
 
 function Layout() {
-  const [conoDivi, faciWhse, prt] = useFlags(["showCompanyDivision", "showFacilityWarehouse", "showPrinter"])
-  const canImpersonate = useFlag("canImpersonate")
+
 
   return (
     <>
@@ -69,18 +65,12 @@ function Layout() {
           <Typography variant="h4" component="p">
             App Title
           </Typography>
-          <Box flexGrow={1} />
+          <Box sx={{ flexGrow: 1 }} />
           <Stack direction="row" spacing={1}>
-            <CurrentUser chipProps={{ size: 'small', variant: 'outlined' }} showRoles canImpersonate={canImpersonate} />
-            {conoDivi &&
-              <CurrentCompanyDivision chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
-            }
-            {faciWhse &&
-              <CurrentFacilityWarehouse chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
-            }
-            {prt &&
-              <CurrentPrinter chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
-            }
+            <CurrentUser chipProps={{ size: 'small', variant: 'outlined' }} showRoles canImpersonate={true} />
+            <CurrentCompanyDivision chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
+            <CurrentFacilityWarehouse chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
+            <CurrentPrinter chipProps={{ size: 'small', variant: 'outlined' }} canEdit />
           </Stack>
         </AppToolbar>
         <Outlet />
@@ -91,14 +81,13 @@ function Layout() {
 
 function Page() {
   const state = useAppSelector(state => state.userContext);
-  const flag = useAppSelector(state => state.flagContext);
   const { Dialog, show } = useDialog({ title: 'Default title', severity: 'success' });
 
   return (
     <>
       <Dialog />
       <Container maxWidth="lg">
-        <Grid container component={Paper} marginY={1}>
+        <Grid container component={Paper} sx={{ marginY: 1 }}>
           <Grid size={6}>
             <Typography variant="subtitle2">Vite env vars</Typography>
             <pre>{JSON.stringify(import.meta.env, null, 2)}</pre>
@@ -108,7 +97,7 @@ function Page() {
             <pre>{JSON.stringify({ __APP_NAME__, __APP_DESCRIPTION__, __APP_VERSION__, __BUILD_DATE__ }, null, 2)}</pre>
           </Grid>
         </Grid>
-        <Box marginY={2}>
+        <Box sx={{ marginY: 2 }}>
           <FormContainer
             onSuccess={async data => {
               if (Number(data.field1) > 100) {
@@ -125,7 +114,7 @@ function Page() {
             <Button type="submit">Submit</Button>
           </FormContainer>
         </Box>
-        <Box marginY={2}>
+        <Box sx={{ marginY: 2 }}>
           <Button
             color="info"
             onClick={() => {

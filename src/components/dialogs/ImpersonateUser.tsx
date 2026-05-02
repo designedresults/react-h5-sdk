@@ -1,9 +1,4 @@
-import { AutocompleteUser } from '../../components/form';
-import { usePreviewFlags } from '../../features/flag/slice';
-import { useGetUserContextQuery, useSetUserContextMutation } from '../../features/user/api/getUserContext';
 import AddModeratorIcon from '@mui/icons-material/AddModerator';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -16,9 +11,10 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormContainer, useForm } from 'react-hook-form-mui';
+import { AutocompleteUser } from '../../components/form';
+import { useGetUserContextQuery, useSetUserContextMutation } from '../../features/user/api/getUserContext';
 import ResultDialog from './ResultDialog';
 
 
@@ -62,10 +58,10 @@ export default function ImpersonateUser({ open, handleClose, onChange }: Props) 
         >
           <DialogTitle>Impersonate User</DialogTitle>
           <DialogContent>
-            <Stack direction="column" spacing={2} margin={2}>
+            <Stack direction="column" spacing={2} sx={{ margin: 2 }}>
               <AutocompleteUser />
               {selectedUserId &&
-                <Box p={1} height={300} alignContent={"center"} >
+                <Box sx={{ p: 1, height: 300, alignContent: 'center' }}>
                   <UserDetails userId={selectedUserId} />
                 </Box>
               }
@@ -98,7 +94,6 @@ type UserDetailsProps = {
 }
 export function UserDetails({ userId }: UserDetailsProps) {
   const { data, isLoading, isFetching, error } = useGetUserContextQuery({ userId })
-  const flags = usePreviewFlags(data?.roles)
 
   if (error) {
     return (
@@ -110,7 +105,7 @@ export function UserDetails({ userId }: UserDetailsProps) {
 
   if (isLoading || isFetching || !data) {
     return (
-      <Box textAlign={"center"}>
+      <Box sx={{ textAlign: "center" }} >
         <CircularProgress />
       </Box>
     )
@@ -148,18 +143,6 @@ export function UserDetails({ userId }: UserDetailsProps) {
           <TableCell rowSpan={data.roles.length + 1}>Roles</TableCell>
         </TableRow>
         {data.roles?.map((role: string) => (<TableRow key={role}><TableCell>{role}</TableCell></TableRow>))}
-        {flags &&
-          <TableRow>
-            <TableCell>Flags</TableCell>
-            <TableCell>
-              {Object.entries(flags).map(([flag, enabled]) => (
-                <Stack key={flag} direction="row" alignItems={"center"} spacing={1}>
-                  {enabled ? <CheckBoxIcon fontSize={'small'} /> : <CheckBoxOutlineBlankIcon fontSize={'small'} />}
-                  <Typography>{flag}</Typography>
-                </Stack>))}
-            </TableCell>
-          </TableRow>
-        }
       </TableBody>
     </Table>
 

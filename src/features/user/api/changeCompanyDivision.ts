@@ -1,7 +1,7 @@
 import { m3api } from "../../../m3api";
 import { userApi } from "../api";
 import { getUserContext } from "./getUserContext";
-import { UserContext } from "../slice";
+import { type UserContext } from "../slice";
 
 export type ChangeCompanyDivisionArgs = {
   userId: string,

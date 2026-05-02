@@ -3,10 +3,10 @@ import { useAppSelector } from '../../store';
 import AddModeratorIcon from '@mui/icons-material/AddModerator';
 import PersonIcon from '@mui/icons-material/Person';
 import RemoveModeratorIcon from '@mui/icons-material/RemoveModerator';
-import Chip, { ChipProps } from '@mui/material/Chip';
+import Chip, { type ChipProps } from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import Tooltip from '@mui/material/Tooltip';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import ImpersonateUser from '../dialogs/ImpersonateUser';
 import ResultDialog from '../dialogs/ResultDialog';
 import Box from '@mui/material/Box';
@@ -38,7 +38,7 @@ export default function CurrentUser({ showRoles, onChange, chipProps, canImperso
 
     if (result.isLoading) {
       actionIcon = <CircularProgress size={14} />
-      action = () => {}
+      action = () => { }
     } else if (impersonator) {
       // impersonation in effect
       actionIcon = <RemoveModeratorIcon />
@@ -49,7 +49,7 @@ export default function CurrentUser({ showRoles, onChange, chipProps, canImperso
       // able to impersonate, but no impersonation currently set
       actionIcon = <AddModeratorIcon />
       action = handleOpen
-    }    
+    }
 
     return { actionIcon, action }
   }, [canImpersonate, impersonator, result.isLoading])
@@ -69,7 +69,7 @@ export default function CurrentUser({ showRoles, onChange, chipProps, canImperso
             {showRoles && (
               <>
                 <Box>Roles:</Box>
-                {roles?.map(role => (<Box key={role} paddingLeft={1}>{role}</Box>))}
+                {roles?.map(role => (<Box key={role} sx={{ pl: 1 }}>{role}</Box>))}
               </>
             )}
           </>

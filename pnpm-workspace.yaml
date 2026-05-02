@@ -1,4 +1,2 @@
-onlyBuiltDependencies:
-  - '@mui/x-telemetry'
-  - esbuild
-  - unrs-resolver
+allowBuilds:
+  '@mui/x-telemetry': true

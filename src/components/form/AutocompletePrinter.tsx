@@ -1,7 +1,5 @@
-import React from 'react';
-
 import { useListPrintersQuery } from '../../features/user/api/listPrinters';
-import { AutocompleteElement, AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
+import { AutocompleteElement, type AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
 
 
 export default function AutocompletePrinter(

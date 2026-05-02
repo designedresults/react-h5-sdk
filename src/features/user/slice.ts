@@ -1,5 +1,5 @@
 import { useAppSelector } from '../../store';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { setUserContextEndpoint } from './api/getUserContext';
 import { changeFacilityWarehouseEndpoint } from './api/changeFacilityWarehouse';
 import { changeCompanyDivisionEndpoint } from './api/changeCompanyDivision';

@@ -2,7 +2,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/ErrorSharp';
 import InfoIcon from '@mui/icons-material/Info';
 import WarningIcon from '@mui/icons-material/Warning';
-import { AlertColor } from '@mui/material/Alert';
+import { type AlertColor } from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -12,7 +12,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import React, { ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { type ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 type Props = {
   title: string;
@@ -66,16 +66,16 @@ export default function useDialog(defaultProps: Props) {
       return (
         <Dialog open={promise !== null} fullWidth color={severity} onClose={handleCancel} disablePortal>
           <DialogTitle>
-            <Stack direction="row" alignItems={'start'}>
+            <Stack direction="row" sx={{ alignItems: 'start' }}>
               {severity && (
-                <Box paddingRight={2}>
+                <Box sx={{ paddingRight: 2 }}>
                   {severity === 'warning' && <WarningIcon color={severity} />}
                   {severity === 'error' && <ErrorIcon color={severity} />}
                   {severity === 'success' && <CheckCircleIcon color={severity} />}
                   {severity === 'info' && <InfoIcon color={severity} />}
                 </Box>
               )}
-              <Typography flexGrow={1}>{title}</Typography>
+              <Typography sx={{ flexGrow: 1 }}>{title}</Typography>
             </Stack>
           </DialogTitle>
           {message && (

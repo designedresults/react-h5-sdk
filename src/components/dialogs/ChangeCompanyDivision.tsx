@@ -1,17 +1,18 @@
 
-import { ChangeCompanyDivisionArgs, useChangeCompanyDivisionMutation } from '../../features';
+
 import { useAppSelector } from '../../store';
-import EditIcon from '@mui/icons-material/edit';
+import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormContainer, useForm } from 'react-hook-form-mui';
 import ResultDialog  from './ResultDialog';
 import { AutocompleteCompany, AutocompleteDivision } from '../../components/form';
+import { useChangeCompanyDivisionMutation, type ChangeCompanyDivisionArgs } from '../../features/user/api/changeCompanyDivision';
 
 
 type Props = {
@@ -52,7 +53,7 @@ export default function ChangeCompanyDivision({ open, handleClose, onChange }: P
         >
           <DialogTitle>Update Company and Division</DialogTitle>
           <DialogContent>
-            <Stack direction="column" spacing={2} margin={2}>
+            <Stack direction="column" spacing={2} sx={{margin: 2}}>
               <AutocompleteCompany />
               <AutocompleteDivision />
             </Stack>

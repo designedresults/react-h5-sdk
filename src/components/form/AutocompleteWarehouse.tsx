@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-
+import { useEffect } from 'react';
+import { AutocompleteElement, type AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
 import { useListWarehousesQuery } from '../../features/user/api/listWarehouses';
-import { AutocompleteElement, AutocompleteElementProps, useFormContext } from 'react-hook-form-mui';
 
 
 export default function AutocompleteWarehouse(

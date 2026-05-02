@@ -1,4 +1,4 @@
-import { M3APIRequest } from "@designedresults/m3api-h5-sdk";
+import { type M3APIRequest } from "@designedresults/m3api-h5-sdk";
 import { userApi } from "../api";
 import { m3api } from "../../../m3api";
 
