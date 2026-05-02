@@ -1,13 +1,38 @@
 {
-  "name": "vite-react-typescript-starter",
-  "private": true,
-  "version": "0.0.0",
+ "name": "@designedresults/react-h5-sdk",
+  "version": "1.4.1",
+  "description": "React utilities for M3 H5 SDK apps",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "publishConfig": {
+    "name": "@designedresults/react-h5-sdk"
+  },
+  "homepage": "https://github.com/designedresults/react-h5-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/designedresults/react-h5-sdk.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "John Hagler",
+    "email": "john@designedresults.co",
+    "url": "https://designedresults.co"
+  },
+    "scripts": {
+    "build:dev": "rm -rf ./lib/ && tsc --project tsconfig.json --watch",
+    "build": "rm -rf ./lib/ && tsc --project tsconfig.build.json",
+    "publish:patch": "npm version patch && npm publish",
+    "dev": "concurrently \"pnpm proxy\" \"vite\"",
+    "proxy": "ionapi-proxy-server --file Rosboro.ionapi",
+    "clean": "rm -rf ./lib/",
+    "test:watch": "jest --watch",
+    "test": "jest --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@designedresults/m3api-h5-sdk": "^3.3.3",
