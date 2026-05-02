@@ -1,6 +1,6 @@
 {
  "name": "@designedresults/react-h5-sdk",
- "version": "2.0.0",
+ "version": "3.0.0",
  "description": "React utilities for M3 H5 SDK apps",
  "type": "module",
  "main": "lib/index.js",
